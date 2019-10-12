@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -26,8 +27,18 @@ public class components{
     public DcMotor fl;
     //back left
     public DcMotor bl;
-
-
+    //intakeLeft
+    public DcMotor intakeLeft;
+    //intakeright
+    public DcMotor intakeRight;
+    //Servo paddle
+    public Servo paddle;
+    //Servo Drag
+    public Servo Drag;
+    //spool motor
+    public DcMotor string;
+    //rotate motor
+    public DcMotor rotate;
 
 
 
@@ -40,6 +51,12 @@ public class components{
         fl = hwMap.dcMotor.get("FL");
         br = hwMap.dcMotor.get("BR");
         bl = hwMap.dcMotor.get("BL");
+
+        //extra motors
+        intakeLeft = hwMap.dcMotor.get("intakeLeft");
+        intakeRight = hwMap.dcMotor.get("intakeright");
+        string = hwMap.dcMotor.get("string");
+        rotate = hwMap.dcMotor.get("rotate");
 
 
 
