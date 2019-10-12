@@ -12,7 +12,7 @@ public class components{
     // we use customary because we cool like that
     //all holding values
     static final double wheel_diameter = 4.0;
-    static final double gear_ratio = 2.0;
+    static final double gear_ratio = .5;
     //for encoders
     static final double ticks = 1120;
     static final double ticks_per_inch = (ticks * gear_ratio)/(wheel_diameter * Math.PI);
