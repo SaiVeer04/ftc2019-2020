@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+@Autonomous(name = "harmambaby")
 public class auto_test extends LinearOpMode {
         components robot = new components();
     public void runOpMode() throws InterruptedException{
