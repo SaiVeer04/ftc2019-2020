@@ -6,7 +6,7 @@ public class auto_test extends LinearOpMode {
         components robot = new components();
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
-
+        //balsjacs;nxv;;
         waitForStart();
         robot.forward(10,.2);
     }
