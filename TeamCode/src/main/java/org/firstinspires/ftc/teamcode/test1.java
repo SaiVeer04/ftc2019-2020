@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp(name = "hello")
 
-public class test1 extends LinearOpMode {
+public class test1 extends LinearOpMode { //first time using git
    GenericDetector detector = new GenericDetector();
     //DcMotor intakeleft;
     //DcMotor intakeright;
