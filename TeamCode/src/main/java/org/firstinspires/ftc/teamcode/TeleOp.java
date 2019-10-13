@@ -85,9 +85,17 @@ public class TeleOp extends LinearOpMode {
                     test.setPosition(1);
                 }
 
+                if(gamepad1.a){
+                    string.setPower(0.5);
+                }
+                if(gamepad1.a){
+                    string.setPower(-0.5);
+                }
+                //string.setPower(boolToInt(gamepad1.y, 0)*2);
+               // string.setPower(-(boolToInt(gamepad1.a, 0)));
 
-                string.setPower(boolToInt(gamepad1.y, 0)*2);
-                string.setPower(-(boolToInt(gamepad1.a, 0)));
+                rotate.setPower(boolToInt(gamepad1.dpad_right, .6));
+                rotate.setPower(-(boolToInt(gamepad1.dpad_left, .1)));
                /* if(gamepad1.dpad_left) {
                     rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -110,18 +118,7 @@ public class TeleOp extends LinearOpMode {
               if (gamepad1.dpad_right)
                   rotate.setPower(-1);*/
 
-              if (gamepad1.dpad_left){
-                  rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                  rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                  rotate.setTargetPosition(50);
-                  rotate.setPower(.2);
-              }
-              if (gamepad1.dpad_right){
-                  rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                  rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                  rotate.setTargetPosition(-50);
-                  rotate.setPower(-.2);
-              }
+
 
                 if (gamepad1.left_bumper) //decide later
                 {

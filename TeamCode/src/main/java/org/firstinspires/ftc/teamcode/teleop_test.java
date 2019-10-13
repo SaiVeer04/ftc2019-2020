@@ -9,21 +9,33 @@ public class teleop_test extends LinearOpMode {
     components robot = new components();
 
     public void runOpMode(){
-
+        robot.init(hardwareMap);
         waitForStart();
         while(opModeIsActive()){
-            double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-            double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = gamepad1.right_stick_x;
-            final double v1 = r * Math.cos(robotAngle) + rightX;
-            final double v2 = r * Math.sin(robotAngle) - rightX;
-            final double v3 = r * Math.sin(robotAngle) + rightX;
-            final double v4 = r * Math.cos(robotAngle) - rightX;
+            double games = gamepad1.right_stick_x;
+            telemetry.addData("Gamepad:", games);
+            telemetry.update();
+            
+            if(gamepad1.right_stick_x > 0){
+                robot.fl.setPower(gamepad1.right_stick_x);
+                robot.bl.setPower(-gamepad1.right_stick_x);
+                robot.fr.setPower(-gamepad1.right_stick_x);
+                robot.br.setPower(gamepad1.right_stick_x);
+            }
 
-            robot.fl.setPower(v1);
-            robot.fr.setPower(v2);
-            robot.bl.setPower(v3);
-            robot.br.setPower(v4);
+              else  if(gamepad1.right_stick_x == 0){
+                    robot.fl.setPower(0);
+                    robot.bl.setPower(0);
+                    robot.fr.setPower(0);
+                    robot.br.setPower(0);
+                }
+
+            else if(gamepad1.right_stick_x < 0){
+                robot.fl.setPower(-gamepad1.right_stick_x);
+                robot.bl.setPower(gamepad1.right_stick_x);
+                robot.fr.setPower(gamepad1.right_stick_x);
+                robot.br.setPower(-gamepad1.right_stick_x);
+            }
 
         }
     }

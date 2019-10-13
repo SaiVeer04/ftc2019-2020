@@ -53,10 +53,10 @@ public class components{
         bl = hwMap.dcMotor.get("BL");
 
         //extra motors
-        intakeLeft = hwMap.dcMotor.get("intakeLeft");
-        intakeRight = hwMap.dcMotor.get("intakeright");
-        string = hwMap.dcMotor.get("string");
-        rotate = hwMap.dcMotor.get("rotate");
+        //intakeLeft = hwMap.dcMotor.get("intakeLeft");
+       // intakeRight = hwMap.dcMotor.get("intakeright");
+       // string = hwMap.dcMotor.get("string");
+      //  rotate = hwMap.dcMotor.get("rotate");
 
 
 
