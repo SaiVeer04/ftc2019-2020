@@ -88,14 +88,30 @@ public class TeleOp extends LinearOpMode {
                 if(gamepad1.a){
                     string.setPower(0.5);
                 }
-                if(gamepad1.a){
+
+                else if(gamepad1.y){
                     string.setPower(-0.5);
+                }
+                else if (gamepad1.a == false || gamepad1.y == false){
+                    string.setPower(0);
+                }
+
+                //motor rotation code
+                if(gamepad1.dpad_left){
+                    rotate.setPower(0.25);
+                }
+
+                else if(gamepad1.dpad_right){
+                    rotate.setPower(-0.25);
+                }
+                else if (gamepad1.dpad_left == false || gamepad1.dpad_right == false){
+                    rotate.setPower(0);
                 }
                 //string.setPower(boolToInt(gamepad1.y, 0)*2);
                // string.setPower(-(boolToInt(gamepad1.a, 0)));
 
-                rotate.setPower(boolToInt(gamepad1.dpad_right, .6));
-                rotate.setPower(-(boolToInt(gamepad1.dpad_left, .1)));
+               // rotate.setPower(boolToInt(gamepad1.dpad_right, .6));
+               // rotate.setPower(-(boolToInt(gamepad1.dpad_left, .1)));
                /* if(gamepad1.dpad_left) {
                     rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -1,14 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import static java.lang.Thread.sleep;
+
 public class components{
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     // we use customary because we cool like that
     //all holding values
@@ -34,11 +41,13 @@ public class components{
     //Servo paddle
     public Servo paddle;
     //Servo Drag
-    public Servo Drag;
+    public Servo drag;
     //spool motor
     public DcMotor string;
     //rotate motor
     public DcMotor rotate;
+    // Color sensor
+    public ColorSensor sensorColor;
 
 
 
@@ -53,15 +62,29 @@ public class components{
         bl = hwMap.dcMotor.get("BL");
 
         //extra motors
-        //intakeLeft = hwMap.dcMotor.get("intakeLeft");
-       // intakeRight = hwMap.dcMotor.get("intakeright");
-       // string = hwMap.dcMotor.get("string");
-      //  rotate = hwMap.dcMotor.get("rotate");
+        intakeLeft = hwMap.dcMotor.get("intakeLeft");
+        intakeRight = hwMap.dcMotor.get("intakeRight");
+        string = hwMap.dcMotor.get("string");
+        rotate = hwMap.dcMotor.get("rotate");
+
+        //Servo
+        drag = hwMap.servo.get("drag");
+        //ETC
+        sensorColor = hwMap.colorSensor.get("sensorColor");
+
+
+        //
+        drag.setPosition(.7);
 
 
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //required to tell using encoder
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -81,28 +104,43 @@ public class components{
     //methods are pretty self explanatory
     public void reset_motor(){
         //resets encoders
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
     //this one lets each movement run to the full extent with out overriding
     public void powerBusy(double power) {
-        //lets program run fully
+
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        runtime.reset();
+
         fl.setPower(power);
         fr.setPower(power);
         bl.setPower(power);
         br.setPower(power);
+
+
+
+
+        //lets program run fully
+
         while ((fl.isBusy() && fr.isBusy())&&(bl.isBusy() && br.isBusy())){}
         fl.setPower(0);
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
+
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void forward(double front,double power){
         int final_front = (int)Math.round(front*ticks_per_inch);
@@ -115,7 +153,7 @@ public class components{
         powerBusy(power);
 
     }
-    public void backwards(double back,double power){
+    public void backwards(double back,double power) throws InterruptedException{
 
         int final_back = (int)Math.round(back*ticks_per_inch);
 
@@ -124,7 +162,14 @@ public class components{
         bl.setTargetPosition(-final_back);
         fr.setTargetPosition(-final_back);
         br.setTargetPosition(-final_back);
+
+
+
+
+
         powerBusy(power);
+
+
 
     }
     public void strafeleft(double back,double power){
@@ -136,10 +181,16 @@ public class components{
         bl.setTargetPosition(final_back);
         fr.setTargetPosition(final_back);
         br.setTargetPosition(-final_back);
+
+
+
+
+
         powerBusy(power);
 
+
     }
-    public void straferight(double back,double power){
+    public void straferight(double back,double power) throws InterruptedException{
 
         int final_back = (int)Math.round(back*ticks_per_inch);
 
@@ -148,7 +199,25 @@ public class components{
         bl.setTargetPosition(-final_back);
         fr.setTargetPosition(-final_back);
         br.setTargetPosition(final_back);
-        powerBusy(power);
+
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        fl.setPower(power);
+        fr.setPower(power);
+        bl.setPower(power);
+        br.setPower(power);
+
+        sleep(1000);
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
+
+
+       // powerBusy(power);
 
     }
 

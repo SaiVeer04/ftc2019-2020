@@ -118,13 +118,21 @@ public class Autonmous extends LinearOpMode {
         telemetry.update();
         //Start Running from here
         waitForStart();
+        telemetry.addData("Red  ", robot.sensorColor.red());
+        // go to foundation
+        robot.strafeleft(27.2,.2);
+        //latch on
+        robot.drag.setPosition(1);
+        //go back to building zone
+        robot.straferight(27.2,.2);
+        //unlatch
+        robot.drag.setPosition(0);
+        // move forward until it sees red
 
-   
 
 
         if (opModeIsActive()) {
-            //go to foundation
-            robot.strafeleft(27,.2);
+
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
