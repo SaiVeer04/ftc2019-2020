@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -53,7 +54,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@Autonomous(name = "Concept: TensorFlow Object Detection", group = "Concept")
 //@Disabled
 public class Autonmous extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -75,7 +76,7 @@ public class Autonmous extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            "AVfSIvj/////AAAAGTUcKyWgcEfQmFojiL3wVsFONL5cc42Z7eYOWsi87kgM5mtlXY6Hx9fOOW11fSORiTbcFyQq0QjvARAgIllmsmYh4T+JGxgDMAWyhN+UjViuPjGjJTeiJ5NxyQmU7beQDGnTYewwu6Eqh3aL7LLW47ESa3KZKzctmNv8BGcEf9+wYNxCQI8zVOC0ZSdnM8pJBiwD7cYmrNgmvHb9Zkm71+BpBHWnE9JlEFF+bAbiLArvZ2W/OVqT1ib5H2a5hHfuyfqCuGjuXi+lFwOW9fXFEmq2+WihPylBPEEl8qoBXRH7LcqjUifwyz4GSwwZc5IknKmVFXYZxl7I+5QL/IPmSGW7VTHRIr7nT+bcI0JtgNen";
+            "AVF+IPr/////AAABmSIHgAGLI0ODn254a6Sw3UQK0VqDJcWazHjdrhyfBcJdjHXFe3pv6C0EYG8QGSLhOfCTPGxj3GgfzXF/ndSARshwvj7P3SrpPLgvKVZyl5tPjFYSCIU6r3CzQTmFXGut7tgCZjTS59auWpsAZJSLeO76pI2oqQ5aga+MMDlaQ6i2IM3TbaqrcamwoPfElmTc/kb6qMqibv98MGhAflk0Rv1fHEoTjmBw6WzMI5pWn5QEPtjwW2JaS5JsLZu0jQWu9qn6Wz35u9yLrs8rA8ChOIvQemWFUuTzlteADKNPnogFOWZQv4iur/22GphGP+Cu/65iAV6r+RkBnQ3oiRspOi3J4QliYBnbrSokwkBHiyhW";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -117,15 +118,21 @@ public class Autonmous extends LinearOpMode {
         telemetry.update();
         //Start Running from here
         waitForStart();
+        telemetry.addData("Red  ", robot.sensorColor.red());
+        // go to foundation
+        robot.strafeleft(27.2,.2);
+        //latch on
+        robot.drag.setPosition(1);
+        //go back to building zone
+        robot.straferight(27.2,.2);
+        //unlatch
+        robot.drag.setPosition(0);
+        // move forward until it sees red
 
-   
 
 
         if (opModeIsActive()) {
-            // go near stones
-            robot.backwards(20, .2);
-            //turn 90 degrees to get close to stones
-            robot.turn(90, "l", .2);
+
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
@@ -144,26 +151,26 @@ public class Autonmous extends LinearOpMode {
                       // step through the list of recognitions and display boundary info.
                       int i = 0;
                       for (Recognition recognition : updatedRecognitions) {
-                        double imageHeight = recognition.getImageHeight();
-                        double objectHeight= recognition.getHeight();
-                        double ratio = imageHeight/objectHeight;
-                        double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                              double imageHeight = recognition.getImageHeight();
+                              double objectHeight= recognition.getHeight();
+                              double ratio = imageHeight/objectHeight;
+                              double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
 
-                       if(ratio < 5 && ratio > 10){
-                           if(ratio > 10) {
-                               robot.bl.setPower(.2);
-                               robot.fl.setPower(-.2);
-                               robot.fr.setPower(.2);
-                               robot.br.setPower(-.2);
-                           }else if (ratio < 5){
-                               robot.bl.setPower(-.2);
-                               robot.fl.setPower(.2);
-                               robot.fr.setPower(-.2);
-                               robot.br.setPower(.2);
-                           }
-                        }else if(ratio > 5 && ratio < 10){
-                           break;
-                       }
+                              if(ratio < 5 && ratio > 10){
+                                  if(ratio > 10) {
+                                      robot.bl.setPower(.2);
+                                      robot.fl.setPower(-.2);
+                                      robot.fr.setPower(.2);
+                                      robot.br.setPower(-.2);
+                                  }else if (ratio < 5){
+                                      robot.bl.setPower(-.2);
+                                      robot.fl.setPower(.2);
+                                      robot.fr.setPower(-.2);
+                                      robot.br.setPower(.2);
+                                  }
+                              }else if(ratio > 5 && ratio < 10){
+                                  break;
+                              }
 
                         telemetry.addData("Disatnce",ratio);
 
