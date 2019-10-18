@@ -151,26 +151,26 @@ public class Autonmous extends LinearOpMode {
                       // step through the list of recognitions and display boundary info.
                       int i = 0;
                       for (Recognition recognition : updatedRecognitions) {
-                        double imageHeight = recognition.getImageHeight();
-                        double objectHeight= recognition.getHeight();
-                        double ratio = imageHeight/objectHeight;
-                        double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                              double imageHeight = recognition.getImageHeight();
+                              double objectHeight= recognition.getHeight();
+                              double ratio = imageHeight/objectHeight;
+                              double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
 
-                       if(ratio < 5 && ratio > 10){
-                           if(ratio > 10) {
-                               robot.bl.setPower(.2);
-                               robot.fl.setPower(-.2);
-                               robot.fr.setPower(.2);
-                               robot.br.setPower(-.2);
-                           }else if (ratio < 5){
-                               robot.bl.setPower(-.2);
-                               robot.fl.setPower(.2);
-                               robot.fr.setPower(-.2);
-                               robot.br.setPower(.2);
-                           }
-                        }else if(ratio > 5 && ratio < 10){
-                           break;
-                       }
+                              if(ratio < 5 && ratio > 10){
+                                  if(ratio > 10) {
+                                      robot.bl.setPower(.2);
+                                      robot.fl.setPower(-.2);
+                                      robot.fr.setPower(.2);
+                                      robot.br.setPower(-.2);
+                                  }else if (ratio < 5){
+                                      robot.bl.setPower(-.2);
+                                      robot.fl.setPower(.2);
+                                      robot.fr.setPower(-.2);
+                                      robot.br.setPower(.2);
+                                  }
+                              }else if(ratio > 5 && ratio < 10){
+                                  break;
+                              }
 
                         telemetry.addData("Disatnce",ratio);
 

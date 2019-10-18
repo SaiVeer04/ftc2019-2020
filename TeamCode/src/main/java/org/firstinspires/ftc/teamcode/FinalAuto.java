@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -131,6 +132,27 @@ public class FinalAuto extends LinearOpMode {
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
+                            double imageHeight = recognition.getImageHeight();
+                            double objectHeight= recognition.getHeight();
+                            double ratio = imageHeight/objectHeight;
+                            double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+
+                            if(ratio < 5 && ratio > 10){
+                                if(ratio > 10) {
+                                    robot.bl.setPower(.2);
+                                    robot.fl.setPower(-.2);
+                                    robot.fr.setPower(.2);
+                                    robot.br.setPower(-.2);
+                                }else if (ratio < 5){
+                                    robot.bl.setPower(-.2);
+                                    robot.fl.setPower(.2);
+                                    robot.fr.setPower(-.2);
+                                    robot.br.setPower(.2);
+                                }
+                            }else if(ratio > 5 && ratio < 10){
+                                break;
+                            }
+
                             telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                             telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
                                     recognition.getLeft(), recognition.getTop());
