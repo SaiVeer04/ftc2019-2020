@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -49,7 +50,7 @@ public class components{
     // Color sensor
     public ColorSensor sensorColor;
     //
-    public Servo foundation;
+    public CRServo foundation;
 
 
 
@@ -62,7 +63,7 @@ public class components{
         fl = hwMap.dcMotor.get("FL");
         br = hwMap.dcMotor.get("BR");
         bl = hwMap.dcMotor.get("BL");
-        foundation = hwMap.servo.get("foundation");
+        foundation = hwMap.crservo.get("foundation");
 
         //extra motors
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
