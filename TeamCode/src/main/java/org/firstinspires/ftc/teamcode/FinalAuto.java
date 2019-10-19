@@ -122,7 +122,7 @@ public class FinalAuto extends LinearOpMode {
         waitForStart();
         encoderDrive(.4, -29, -29, -29, -29, 3); //move out
         sleep(200);
-        encoderDrive(.3, 8, -8, -8, 8,3); //strafe left
+        //encoderDrive(.3, 8, -8, -8, 8,3); //strafe left
         robot.foundation.setPower(1);
         sleep(600);
         robot.foundation.setPower(0);
