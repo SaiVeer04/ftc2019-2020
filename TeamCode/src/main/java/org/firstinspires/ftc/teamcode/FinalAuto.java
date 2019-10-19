@@ -131,8 +131,15 @@ public class FinalAuto extends LinearOpMode {
         robot.foundation.setPower(-1); //unlatch
         sleep(200);
         robot.foundation.setPower(0);
-        encoderDrive(.3, 60, -60, -60, 60, 3); //strafe right
-        sleep(350);
+        int p = 10;
+
+        while (robot.sensorColor.red() < 2) {
+
+            encoderDrive(.3, p, -p, -p, p, 3); //strafe right
+            sleep(350);
+            p += 5;
+        }
+
         encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
         sleep(175);
         encoderDrive(0.3,2,-2,2,-2, 3);
