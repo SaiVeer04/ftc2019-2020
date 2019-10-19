@@ -65,7 +65,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
 //@Disabled
 public class newautotest extends LinearOpMode {
-    components robot = new components();
+    componentsTile robot = new componentsTile();
     /* Declare OpMode members. */
       // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
@@ -118,9 +118,9 @@ public class newautotest extends LinearOpMode {
         //encoderDrive(.5,-5,-5,-5,-5,3);
         //encoderDrive(.2,-26.5,26.5,26.5,-26.5,3);
         //encoderDrive(.5,8,8,8,8,3);
-        robot.drag.setPosition(0);
-        encoderDrive(.2,30.5,-30.5,-30.5,30.5,3);
-        encoderDrive(.5,-8,-8,-8,-8,3);
+
+        encoderDrive(.2,-30.5,30.5,30.5,-30.5,3);
+
 
         //encoderDrive(.5,-20,20,-20,10,3);
 
