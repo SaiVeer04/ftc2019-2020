@@ -120,7 +120,7 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        encoderDrive(.3,-25,-25,-25,-25,3);
+        encoderDrive(.3,-28.5,-28.5,-28.5,-28.5,3);
         robot.foundation.setPosition(0);
 
 
@@ -128,7 +128,7 @@ public class FinalAuto extends LinearOpMode {
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
+                      // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
