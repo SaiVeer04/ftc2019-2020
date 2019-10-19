@@ -121,7 +121,7 @@ public class FinalAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
         encoderDrive(.4, -29, -29, -29, -29, 3); //move out
-        sleep(200);
+        sleep(400);
         robot.foundation.setPower(1); //latch
         sleep(300);
         robot.foundation.setPower(0);
@@ -131,9 +131,12 @@ public class FinalAuto extends LinearOpMode {
         robot.foundation.setPower(-1); //unlatch
         sleep(200);
         robot.foundation.setPower(0);
+        encoderDrive(.3, 7, -7, -7, 7, 3); //strafe right
         int p = 10;
+        encoderDrive(.3, 5, 5, 5, 5, 3); //move back a little
 
         while (robot.sensorColor.red() < 2) {
+            telemetry.addData("Color sensor",1);
 
             encoderDrive(.3, p, -p, -p, p, 3); //strafe right
             sleep(350);
