@@ -98,6 +98,7 @@ public class FinalAuto extends LinearOpMode {
                 robot.fr.getCurrentPosition(),
                 robot.br.getCurrentPosition());
         telemetry.update();
+        robot.foundation.setPosition(0);
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -120,8 +121,9 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        encoderDrive(.3,-28.5,-28.5,-28.5,-28.5,3);
-        robot.foundation.setPosition(0);
+        encoderDrive(.3,-28.5,-28.5,-28.5,-28.5,2);
+        robot.foundation.setPosition(.5);
+        encoderDrive(.3,28.5,28.5,28.5,28.5,2);
 
 
         if (opModeIsActive()) {
