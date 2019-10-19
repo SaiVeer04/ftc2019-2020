@@ -121,9 +121,8 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        encoderDrive(.3,-28.5,-28.5,-28.5,-28.5,2);
-        robot.foundation.setPosition(.5);
-        encoderDrive(.3,28.5,28.5,28.5,28.5,2);
+        encoderDrive(.3,-28.5,-28.5,-28.5,-28.5,3);
+        robot.foundation.setPosition(0);
 
 
         if (opModeIsActive()) {
