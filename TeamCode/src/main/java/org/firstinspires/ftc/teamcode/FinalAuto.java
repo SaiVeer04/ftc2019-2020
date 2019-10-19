@@ -129,13 +129,13 @@ public class FinalAuto extends LinearOpMode {
         encoderDrive(.2, 45, 45, 45, 45, 3); //move back
         sleep(300);
         robot.foundation.setPower(-1); //unlatch
-        sleep(300);
+        sleep(200);
         robot.foundation.setPower(0);
-        /*encoderDrive(.3, 20, -20, -20, 20, 3); //strafe right
+        encoderDrive(.3, 60, -60, -60, 60, 3); //strafe right
         sleep(350);
         encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
         sleep(175);
-        encoderDrive(0.3,2,-2,2,-2, 3);*/
+        encoderDrive(0.3,2,-2,2,-2, 3);
 
 
         if (opModeIsActive()) {
