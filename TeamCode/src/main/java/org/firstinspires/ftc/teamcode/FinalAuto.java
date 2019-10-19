@@ -119,9 +119,20 @@ public class FinalAuto extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
+        robot.foundation.setPosition(0);
         waitForStart();
-        encoderDrive(.3, -28.3, -28.3, -28.3, -28.3, 3);
-        robot.foundation.setPosition(.5);
+        encoderDrive(.4, -29, -29, -29, -29, 3); //move out
+        sleep(200);
+        encoderDrive(.3, 8, -8, -8, 8,3); //strafe left
+        //robot.foundation.setPosition(.5);
+        sleep(200);
+        encoderDrive(.2, 29, 29, 29, 29, 3); //move back
+        sleep(200);
+        encoderDrive(.3, -20, 20, 20, -20, 3); //strafe right
+        sleep(200);
+        encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
+        sleep(200);
+        encoderDrive(0.3,2,-2,2,-2, 3);
 
 
         if (opModeIsActive()) {
