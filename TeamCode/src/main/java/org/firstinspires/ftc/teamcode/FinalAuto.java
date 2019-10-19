@@ -125,11 +125,11 @@ public class FinalAuto extends LinearOpMode {
         robot.foundation.setPower(1); //latch
         sleep(300);
         robot.foundation.setPower(0);
-        sleep(200);
+        sleep(400);
         encoderDrive(.2, 45, 45, 45, 45, 3); //move back
         sleep(300);
         robot.foundation.setPower(-1); //unlatch
-        sleep(200);
+        sleep(400);
         robot.foundation.setPower(0);
         int p = 10;
 
