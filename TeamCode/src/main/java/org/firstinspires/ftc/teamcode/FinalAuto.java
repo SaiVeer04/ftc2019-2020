@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -24,8 +25,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
+@Autonomous(name = "Final Auto")
+//@Disabled
 public class FinalAuto extends LinearOpMode {
     components robot = new components();
     /* Declare OpMode members. */
@@ -119,6 +120,8 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
+        encoderDrive(.3,-25,-25,-25,-25,3);
+        robot.foundation.setPosition(0);
 
 
         if (opModeIsActive()) {

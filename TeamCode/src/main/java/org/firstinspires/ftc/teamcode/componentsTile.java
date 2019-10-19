@@ -1,19 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import static java.lang.Thread.sleep;
 
-public class components{
+public class componentsTile {
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -34,22 +30,6 @@ public class components{
     public DcMotor fl;
     //back left
     public DcMotor bl;
-    //intakeLeft
-    public DcMotor intakeLeft;
-    //intakeright
-    public DcMotor intakeRight;
-    //Servo paddle
-    public Servo paddle;
-    //Servo Drag
-    public Servo drag;
-    //spool motor
-    public DcMotor string;
-    //rotate motor
-    public DcMotor rotate;
-    // Color sensor
-    public ColorSensor sensorColor;
-    //
-    public Servo foundation;
 
 
 
@@ -62,22 +42,9 @@ public class components{
         fl = hwMap.dcMotor.get("FL");
         br = hwMap.dcMotor.get("BR");
         bl = hwMap.dcMotor.get("BL");
-        foundation = hwMap.servo.get("foundation");
 
         //extra motors
-        intakeLeft = hwMap.dcMotor.get("intakeLeft");
-        intakeRight = hwMap.dcMotor.get("intakeRight");
-        string = hwMap.dcMotor.get("string");
-        rotate = hwMap.dcMotor.get("rotate");
 
-        //Servo
-        drag = hwMap.servo.get("drag");
-        //ETC
-        sensorColor = hwMap.colorSensor.get("sensorColor");
-
-
-        //
-        drag.setPosition(.7);
 
 
 
