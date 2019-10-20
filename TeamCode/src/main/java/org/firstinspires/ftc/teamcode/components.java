@@ -135,7 +135,7 @@ public class components{
 
         //lets program run fully
 
-        while ((fl.isBusy() && fr.isBusy())&&(bl.isBusy() && br.isBusy())){}
+
         fl.setPower(0);
         fr.setPower(0);
         bl.setPower(0);
