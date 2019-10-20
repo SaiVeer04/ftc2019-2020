@@ -74,7 +74,7 @@ public class FinalAuto extends LinearOpMode {
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
@@ -121,31 +121,40 @@ public class FinalAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
         encoderDrive(.4, -29, -29, -29, -29, 3); //move out
-        sleep(400);
-        robot.foundation.setPower(1); //latch
+       // sleep(400);
+       // robot.foundation.setPower(1); //latch
         sleep(300);
         robot.foundation.setPower(0);
         sleep(400);
-        encoderDrive(.2, 45, 45, 45, 45, 3); //move back
+        encoderDrive(.2, 29, 29, 29, 29, 3); //move back
         sleep(300);
-        robot.foundation.setPower(-1); //unlatch
-        sleep(400);
-        robot.foundation.setPower(0);
-        encoderDrive(.3, 7, -7, -7, 7, 3); //strafe right
-        int p = 10;
+       // robot.foundation.setPower(-1); //unlatch
+       // sleep(400);
+       // robot.foundation.setPower(0);
+       Thread.sleep(1000);
+       robot.fl.setPower(0.2);
+       robot.bl.setPower(-0.2);
+       robot.fr.setPower(-0.2);
+       robot.br.setPower(0.2);
+
+
+        /*int p = 10;
         encoderDrive(.3, 5, 5, 5, 5, 3); //move back a little
 
-        while (robot.sensorColor.red() < 2) {
+        while (robot.sensorColor.red() < 40) {
             telemetry.addData("Color sensor",1);
-
-            encoderDrive(.3, p, -p, -p, p, 3); //strafe right
+            robot.fl.setPower(0.4);
+            robot.fr.setPower(-0.4);
+            robot.bl.setPower(-0.4);
+            robot.br.setPower(0.4);
+            /*encoderDrive(.3, p, -p, -p, p, 3); //strafe right
             sleep(350);
-            p += 5;
-        }
+            p += 5;*/
+        //}
 
-        encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
-        sleep(175);
-        encoderDrive(0.3,2,-2,2,-2, 3);
+        //encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
+       // sleep(175);
+       // encoderDrive(0.3,2,-2,2,-2, 3);
 
 
         if (opModeIsActive()) {
@@ -164,7 +173,7 @@ public class FinalAuto extends LinearOpMode {
                             double ratio = imageHeight / objectHeight;
                             double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
 
-                            if (ratio < 5 && ratio > 10) {
+                           /* if (ratio < 5 && ratio > 10) {
                                 if (ratio > 10) {
                                     robot.bl.setPower(.2);
                                     robot.fl.setPower(-.2);
@@ -178,7 +187,7 @@ public class FinalAuto extends LinearOpMode {
                                 }
                             } else if (ratio > 5 && ratio < 10) {
                                 break;
-                            }
+                            }*/
 
                             telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                             telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
@@ -191,7 +200,7 @@ public class FinalAuto extends LinearOpMode {
 
 
                                 //pick it up
-                                pickup(1); //pick up skystone
+                               /* pickup(1); //pick up skystone
                                 sleep(100);
                                 encoderDrive(0.3, firstforward, firstforward, firstforward, firstforward,0.5); //move stone to the end
                                 sleep(100);
@@ -206,10 +215,10 @@ public class FinalAuto extends LinearOpMode {
                                 sleep(100);
                                 pickup(0); //release the servo
                                 sleep(100);
-                                break;
+                                break;*/
 
                             } else {
-                                encoderDrive(-0.5, 8,8,8,8,3);
+                               // encoderDrive(-0.5, 8,8,8,8,3);
                             }
 
 
@@ -217,7 +226,7 @@ public class FinalAuto extends LinearOpMode {
                                 int firstforward = 118;
 
                                 //pick it up
-                                pickup(1); //pick up skystone
+                               /* pickup(1); //pick up skystone
                                 sleep(100);
                                 encoderDrive(0.3, firstforward, firstforward, firstforward, firstforward,0.5); //move stone to the end
                                 sleep(100);
@@ -235,10 +244,10 @@ public class FinalAuto extends LinearOpMode {
                                 break;
                             } else {
                                 encoderDrive(-0.5, 8,8,8,8,3);
-                            }
+                            }*/
 
 
-                            if (recognition.getLabel() == "Skystone") {
+                            /*if (recognition.getLabel() == "Skystone") {
                                 int firstforward = 110;
 
                                 //pick it up
@@ -257,7 +266,7 @@ public class FinalAuto extends LinearOpMode {
                                 sleep(100);
                                 pickup(0); //release the servo
                                 sleep(100);
-                                break;
+                                break;*/
                             }
 
                         }
