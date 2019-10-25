@@ -78,7 +78,7 @@ public class components{
 
 
         //
-        drag.setPosition(.7);
+        drag.setPosition(1);
 
 
 

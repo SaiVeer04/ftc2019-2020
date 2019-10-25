@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -53,7 +54,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Tensor_Flow", group = "Concept")
+@Autonomous(name = "Tensor_Flow", group = "Concept")
 //@Disabled
 public class Tensorflow_test extends LinearOpMode {
 
@@ -152,9 +153,31 @@ public class Tensorflow_test extends LinearOpMode {
 
 
             if (opModeIsActive()) {
+               // encoderDrive(.2,34,-34,34,-34,3);
                 encoderDrive(.4, -29, -29, -29, -29, 3); //move out
                 encoderDrive(.2, 29, 29, 29, 29, 3); //move back
-                encoderDrive(.2, 9, -9, -9, 9, 3); //strafe right
+                //encoderDriveStrafe(.1, 58, -58, -58, 58, 3); //straferight
+
+                while(robot.sensorColor.red() < 40){
+                    encoderDrive(.4,5,5,5,5,3);
+                    sleep(100);
+                }
+                //encoderDrive(.2,7,7,7,7,3);
+
+               // encoderDrive(.2,34,-34,34,-34,3);
+                /*while(robot.sensorColor.red() < 40){
+                    robot.fl.setPower(0.2);
+                    robot.br.setPower(0.2);
+                    robot.fr.setPower(0.2);
+                    robot.br.setPower(0.2);
+                }*/
+
+
+
+
+
+
+
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
@@ -234,6 +257,9 @@ public class Tensorflow_test extends LinearOpMode {
             robot.bl.setTargetPosition(newLeftBackTarget);
             robot.br.setTargetPosition(newRightBackTarget);
 
+            telemetry.addData("leftpower",robot.fl.getPower());
+            telemetry.addData("rightpower",robot.fr.getPower());
+
             // Turn On RUN_TO_POSITION
             robot.fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -246,6 +272,81 @@ public class Tensorflow_test extends LinearOpMode {
             robot.bl.setPower(Math.abs(speed));
             robot.fr.setPower(Math.abs(speed));
             robot.br.setPower(Math.abs(speed));
+
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.fl.isBusy() && robot.fr.isBusy() && robot.bl.isBusy() && robot.br.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget, newLeftBackTarget, newRightBackTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        robot.fl.getCurrentPosition(),
+                        robot.bl.getCurrentPosition(),
+                        robot.fr.getCurrentPosition(),
+                        robot.br.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            robot.fl.setPower(0);
+            robot.bl.setPower(0);
+            robot.fr.setPower(0);
+            robot.br.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+    public void encoderDriveStrafe ( double speed,
+                               double leftInches, double rightInches, double leftBackInches,
+                               double rightBackInches,
+                               double timeoutS){
+        int newLeftTarget;
+        int newLeftBackTarget;
+        int newRightTarget;
+        int newRightBackTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = robot.fl.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.fr.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newLeftBackTarget = robot.bl.getCurrentPosition() + (int) (leftBackInches * COUNTS_PER_INCH);
+            newRightBackTarget = robot.br.getCurrentPosition() + (int) (rightBackInches * COUNTS_PER_INCH);
+
+            robot.fl.setTargetPosition(newLeftTarget);
+            robot.fr.setTargetPosition(newRightTarget);
+            robot.bl.setTargetPosition(newLeftBackTarget);
+            robot.br.setTargetPosition(newRightBackTarget);
+
+            telemetry.addData("leftpower",robot.fl.getPower());
+            telemetry.addData("rightpower",robot.fr.getPower());
+
+            // Turn On RUN_TO_POSITION
+            robot.fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            robot.fl.setPower(Math.abs(speed));
+            robot.bl.setPower(Math.abs(speed));
+            robot.fr.setPower(Math.abs(speed)*2);
+            robot.br.setPower(Math.abs(speed)*2);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
