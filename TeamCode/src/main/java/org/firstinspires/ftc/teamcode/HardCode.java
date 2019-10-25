@@ -50,7 +50,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
+//@Disabled
 public class HardCode extends LinearOpMode {
     componentsHardCode robot = new componentsHardCode();
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -85,7 +85,7 @@ public class HardCode extends LinearOpMode {
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -108,6 +108,11 @@ public class HardCode extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
+        robot.fl.setPower(0.2);
+        robot.bl.setPower(0.2);
+        robot.fr.setPower(0.2);
+        robot.br.setPower(0.2);
+        Thread.sleep(5000);
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
