@@ -157,11 +157,11 @@ public class Tensorflow_test extends LinearOpMode {
                 encoderDrive(.4, -29, -29, -29, -29, 3); //move out
                 encoderDrive(.2, 29, 29, 29, 29, 3); //move back
                 encoderDrive(.1,1,1,1,1,3);
-                //encoderDriveStrafe(.1, 58, -58, -58, 58, 3); //straferight
+                encoderDriveStrafe(.1, 29, -29, -29, 29, 3); //straferight
 
                 while(robot.sensorColor.red() < 40){
-                    encoderDrive(.4,5,5,5,5,3);
-                    sleep(100);
+                    encoderDrive(.4,1,1,1,1,3);
+                    //sleep(100);
                 }
                 //encoderDrive(.2,7,7,7,7,3);
 
