@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -49,10 +51,17 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
+@TeleOp(name = "HardCode")
 //@Disabled
 public class HardCode extends LinearOpMode {
-    componentsHardCode robot = new componentsHardCode();
+    public DcMotor fr;
+    //back right
+    public DcMotor br;
+    //front left
+    public DcMotor fl;
+    //back left
+    public DcMotor bl;
+    //componentsHardCode robot = new componentsHardCode();
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -86,6 +95,10 @@ public class HardCode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException{
+        fr = hardwareMap.dcMotor.get("FR");
+        fl = hardwareMap.dcMotor.get("FL");
+        br = hardwareMap.dcMotor.get("BR");
+        bl = hardwareMap.dcMotor.get("BL");
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -108,10 +121,10 @@ public class HardCode extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        robot.fl.setPower(0.2);
-        robot.bl.setPower(0.2);
-        robot.fr.setPower(0.2);
-        robot.br.setPower(0.2);
+        fl.setPower(0.2);
+        bl.setPower(0.2);
+        fr.setPower(0.2);
+        br.setPower(0.2);
         Thread.sleep(5000);
 
         if (opModeIsActive()) {
