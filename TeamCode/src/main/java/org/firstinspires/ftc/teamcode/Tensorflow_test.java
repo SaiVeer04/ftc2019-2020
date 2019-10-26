@@ -153,11 +153,14 @@ public class Tensorflow_test extends LinearOpMode {
 
 
             if (opModeIsActive()) {
-
                 encoderDriveStrafe(.5, -50,50, 50, -50, 3); //straferight
-                sleep(3);
+                sleep(3000);
                 encoderDrive(.1, -10, -10, -10, -10, 3);
-                sleep(3);
+                sleep(3000);
+                //encoderDriveStrafe(.5, -50,50, 50, -50, 4); //straferight
+                //sleep(3000);
+                //encoderDrive(.1, -10, -10, -10, -10, 4);
+                //sleep(3000);
                // encoderDrive(.2,34,-34,34,-34,3);
                 //encoderDrive(.4, -29, -29, -29, -29, 3); //move out
                 //encoderDrive(.2, 29, 29, 29, 29, 3); //move back
@@ -197,11 +200,15 @@ public class Tensorflow_test extends LinearOpMode {
                                 recognition.getLeft(), recognition.getTop());
                         telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                 recognition.getRight(), recognition.getBottom());
-                          if(recognition.getLabel() == "Skystone"){
+                        if(recognition.getLabel() == LABEL_FIRST_ELEMENT){
+                            encoderDrive(.2,4,4,4,4,3);
+                        }
+                          if(recognition.getLabel() == LABEL_SECOND_ELEMENT){
                               float ratio = recognition.getHeight()/recognition.getImageHeight();
                               telemetry.addData("Skystone detected., distance is at: ", ratio);
 
                               if(ratio < 5 && ratio > 3){
+                                  sleep(3);
                                   robot.drag.setPosition(0);
                                   //use this code afterwards
 
