@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -54,6 +55,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 @TeleOp(name = "HardCode")
 //@Disabled
 public class HardCode extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
+
     public DcMotor fr;
     //back right
     public DcMotor br;
@@ -121,11 +124,7 @@ public class HardCode extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        fl.setPower(0.2);
-        bl.setPower(0.2);
-        fr.setPower(0.2);
-        br.setPower(0.2);
-        Thread.sleep(5000);
+        movement(5000,.2,.2,.2,.2);
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
@@ -183,5 +182,23 @@ public class HardCode extends LinearOpMode {
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+    public void movement(double mills, double RF, double RR, double LF, double LR) {
+
+
+       fr.setPower(RF); //moving forward to remove hook
+        br.setPower(RR);
+       fl.setPower(LF);
+        bl.setPower(LR);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.milliseconds() < mills)) {
+            telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.milliseconds());
+            telemetry.update();
+        }
+        fr.setPower(0);
+        br.setPower(0);
+        fl.setPower(0);
+       bl.setPower(0);
+        runtime.reset();
     }
 }

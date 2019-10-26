@@ -154,18 +154,15 @@ public class Tensorflow_test extends LinearOpMode {
 
             if (opModeIsActive()) {
 
-                encoderDriveStrafe(.1, -27,27, 27, -27, 3); //straferight
-                encoderDrive(.1, -.5, -.5, -.5, -.5, 3);
+                encoderDriveStrafe(.5, -27,27, 27, -27, 3); //straferight
+                encoderDrive(.1, -2, -2, -2, -2, 3);
                // encoderDrive(.2,34,-34,34,-34,3);
                 //encoderDrive(.4, -29, -29, -29, -29, 3); //move out
                 //encoderDrive(.2, 29, 29, 29, 29, 3); //move back
                 //encoderDrive(.1,1,1,1,1,3);
                 //encoderDriveStrafe(.1, 29, -29, -29, 29, 3); //straferight
 
-                while(robot.sensorColor.red() < 40){
-                    //encoderDrive(.4,1,1,1,1,3);
-                    //sleep(100);
-                }
+
                 //encoderDrive(.2,7,7,7,7,3);
 
                // encoderDrive(.2,34,-34,34,-34,3);
@@ -189,6 +186,7 @@ public class Tensorflow_test extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                       telemetry.addData("# Object Detected", updatedRecognitions.size());
+
                       // step through the list of recognitions and display boundary info.
                       int i = 0;
                       for (Recognition recognition : updatedRecognitions) {
@@ -197,6 +195,39 @@ public class Tensorflow_test extends LinearOpMode {
                                 recognition.getLeft(), recognition.getTop());
                         telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                 recognition.getRight(), recognition.getBottom());
+                          if(recognition.getLabel() == "Skystone"){
+                              float ratio = recognition.getHeight()/recognition.getImageHeight();
+                              telemetry.addData("Skystone detected., distance is at: ", ratio);
+
+                              if(ratio < 5 && ratio > 3){
+                                  robot.drag.setPosition(0);
+                                  //use this code afterwards
+
+
+                                      encoderDriveStrafe(.2, -20, 20, 20, -20, 3); //straferight
+                                      while(robot.sensorColor.red() < 40){
+                                           encoderDrive(.2,5,5,5,5,3);
+                                      }
+                                      encoderDrive(.2,5,5,5,5,3);
+                                      /*
+                                      encoderDrive(.2, 50, 50, 50, 50, 3); //deposit skystone
+                                      robot.drag.setPosition(.9);
+                                      encoderDrive(.2, -26, -26, -26, -26, 3); //move back to second skystone
+                                      robot.drag.setPosition(1); //capture skystone
+                                      encoderDrive(.2, 30, 30, 30, 30, 3); //deposit skystone
+                                      robot.drag.setPosition(0); //deposit skystone
+                                  */
+                              }
+                              else if(ratio > 5){
+                                  encoderDriveStrafe(.1,-1,1,1,-1,3);
+                              }else if (ratio < 3){
+                                  encoderDriveStrafe(.1,1,-1,-1,1,3);
+                              }
+
+                          }
+                          else{
+                              encoderDrive(.2,4,4,4,4,3);
+                          }
                       }
                       telemetry.update();
                     }

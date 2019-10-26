@@ -98,11 +98,11 @@ public class TeleOp extends LinearOpMode {
 
                 //motor rotation code
                 if(gamepad1.dpad_left){
-                    rotate.setPower(0.25);
+                    rotate.setPower(0.1);
                 }
 
                 else if(gamepad1.dpad_right){
-                    rotate.setPower(-0.25);
+                    rotate.setPower(-0.1);
                 }
                 else if (gamepad1.dpad_left == false || gamepad1.dpad_right == false){
                     rotate.setPower(0);
@@ -136,7 +136,7 @@ public class TeleOp extends LinearOpMode {
 
 
 
-                if (gamepad1.left_bumper) //decide later
+                if (gamepad1.left_bumper)
                 {
                     paddle.setPosition(0);
                 }
