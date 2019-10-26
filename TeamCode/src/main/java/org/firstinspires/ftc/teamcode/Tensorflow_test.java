@@ -154,8 +154,10 @@ public class Tensorflow_test extends LinearOpMode {
 
             if (opModeIsActive()) {
 
-                encoderDriveStrafe(.5, -27,27, 27, -27, 3); //straferight
-                encoderDrive(.1, -2, -2, -2, -2, 3);
+                encoderDriveStrafe(.5, -50,50, 50, -50, 3); //straferight
+                sleep(3);
+                encoderDrive(.1, -10, -10, -10, -10, 3);
+                sleep(3);
                // encoderDrive(.2,34,-34,34,-34,3);
                 //encoderDrive(.4, -29, -29, -29, -29, 3); //move out
                 //encoderDrive(.2, 29, 29, 29, 29, 3); //move back
@@ -204,7 +206,7 @@ public class Tensorflow_test extends LinearOpMode {
                                   //use this code afterwards
 
 
-                                      encoderDriveStrafe(.2, -20, 20, 20, -20, 3); //straferight
+                                      encoderDriveStrafe(.2, 20, -20, -20, 20, 3); //straferight
                                       while(robot.sensorColor.red() < 40){
                                            encoderDrive(.2,5,5,5,5,3);
                                       }
