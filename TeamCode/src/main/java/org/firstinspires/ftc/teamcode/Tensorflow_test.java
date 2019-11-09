@@ -153,7 +153,7 @@ public class Tensorflow_test extends LinearOpMode {
 
 
             if (opModeIsActive()) {
-
+                encoderDriveStrafe(.1, -27, -27, -27, -27, 3);
                 encoderDriveStrafe(.5, -27,27, 27, -27, 3); //straferight
                 encoderDrive(.1, -2, -2, -2, -2, 3);
                // encoderDrive(.2,34,-34,34,-34,3);

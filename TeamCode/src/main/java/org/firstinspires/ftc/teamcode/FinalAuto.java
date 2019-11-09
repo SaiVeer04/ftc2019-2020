@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
 
+
         robot.fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -120,58 +122,48 @@ public class FinalAuto extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        encoderDrive(.4, -29, -29, -29, -29, 3); //move out
-       // sleep(400);
-       // robot.foundation.setPower(1); //latch
+        encoderDrive(.2, 0.3, 0.3, -0.3, -0.3, 1.9); //move out
+        // sleep(400);
+        robot.foundation.setPower(-0.5); //latch
+        sleep(5000);
+        encoderDrive(.2, -0.3, -0.3, 0.3, 0.3, 1.9); //move back
         sleep(300);
-        robot.foundation.setPower(0);
-        sleep(400);
-        encoderDrive(.2, 29, 29, 29, 29, 3); //move back
-        sleep(300);
-       // robot.foundation.setPower(-1); //unlatch
-       // sleep(400);
-       // robot.foundation.setPower(0);
-       Thread.sleep(1000);
-       robot.fl.setPower(0.2);
-       robot.bl.setPower(-0.2);
-       robot.fr.setPower(-0.2);
-       robot.br.setPower(0.2);
+        // robot.foundation.setPower(-1); //unlatch
+        // sleep(400);
+        // robot.foundation.setPower(0);
+        Thread.sleep(1000);
 
 
-        /*int p = 10;
+        int p = 10;
         encoderDrive(.3, 5, 5, 5, 5, 3); //move back a little
 
         while (robot.sensorColor.red() < 40) {
-            telemetry.addData("Color sensor",1);
-            robot.fl.setPower(0.4);
-            robot.fr.setPower(-0.4);
-            robot.bl.setPower(-0.4);
-            robot.br.setPower(0.4);
-            /*encoderDrive(.3, p, -p, -p, p, 3); //strafe right
+            telemetry.addData("Color sensor", 1);
+            encoderDrive(.3, -0.3, 0.3, -0.3, 0.3, p); //strafe right
             sleep(350);
-            p += 5;*/
-        //}
+            p += 5;
+            //}
 
-        //encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
-       // sleep(175);
-       // encoderDrive(0.3,2,-2,2,-2, 3);
+            //encoderDrive(.3, -3,-3,-3,-3,3); //move backward a little bit
+            // sleep(175);
+            // encoderDrive(0.3,2,-2,2,-2, 3);
 
 
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            double imageHeight = recognition.getImageHeight();
-                            double objectHeight = recognition.getHeight();
-                            double ratio = imageHeight / objectHeight;
-                            double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+            if (opModeIsActive()) {
+                while (opModeIsActive()) {
+                    if (tfod != null) {
+                        // getUpdatedRecognitions() will return null if no new information is available since
+                        // the last time that call was made.
+                        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                        if (updatedRecognitions != null) {
+                            telemetry.addData("# Object Detected", updatedRecognitions.size());
+                            // step through the list of recognitions and display boundary info.
+                            int i = 0;
+                            for (Recognition recognition : updatedRecognitions) {
+                                double imageHeight = recognition.getImageHeight();
+                                double objectHeight = recognition.getHeight();
+                                double ratio = imageHeight / objectHeight;
+                                double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
 
                            /* if (ratio < 5 && ratio > 10) {
                                 if (ratio > 10) {
@@ -189,200 +181,152 @@ public class FinalAuto extends LinearOpMode {
                                 break;
                             }*/
 
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
+                                telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                                telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                        recognition.getLeft(), recognition.getTop());
+                                telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                        recognition.getRight(), recognition.getBottom());
 
-                            if (recognition.getLabel() == "Skystone") {
-                                int firstforward = 126;
+                                if (recognition.getLabel() == "Skystone") {
+                                    int firstforward = 126;
+
+                                    //pick it up
+                                    pickup(1); //pick up skystone
+                                    sleep(100);
+                                    encoderDrive(0.3, -0.3, -0.3, 0.3, 0.3, 100); //move stone to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    encoderDrive(0.3, 0.3, 0.3, -0.3, -0.3, 50);
+                                    sleep(100);
+                                    //pick it up
+                                    pickup(1); //pick up second skystone
+                                    sleep(100);
+                                    encoderDrive(0.3, -0.3, -0.3, 0.3, 0.3, 50); //move to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    break;
+
+                                } else {
+                                    encoderDrive(-0.5, -0.3,-0.3,0.3,0.3,5);
+                                }
 
 
-                                //pick it up
-                               /* pickup(1); //pick up skystone
-                                sleep(100);
-                                encoderDrive(0.3, firstforward, firstforward, firstforward, firstforward,0.5); //move stone to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                encoderDrive(0.3, -(firstforward-24), -(firstforward-24),-(firstforward-24),-(firstforward-24), 3);
-                                sleep(100);
-                                //pick it up
-                                pickup(1); //pick up second skystone
-                                sleep(100);
-                                encoderDrive(0.3,firstforward-24, firstforward-24,firstforward-24,firstforward-24, 3); //move to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                break;*/
+                                if (recognition.getLabel() == "Skystone") {
+                                    int firstforward = 118;
+                                    //pick it up
+                                    pickup(1); //pick up skystone
+                                    sleep(100);
+                                    encoderDrive(0.3, -0.3, -0.3, 0.3, 0.3, 40); //move stone to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    encoderDrive(0.3,0.3,0.3,-0.3,-0.3, 20);
+                                    sleep(100);
+                                    //pick it up
+                                    pickup(1); //pick up second skystone
+                                    sleep(100);
+                                    encoderDrive(-0.3, -0.3,-0.3,0.3, 0.3, 20); //move to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    break;
+                                } else {
+                                    encoderDrive(-0.5, -0.3, 0.3, 0.3, 0.3, 5);
+                                }
 
-                            } else {
-                               // encoderDrive(-0.5, 8,8,8,8,3);
+
+                                if (recognition.getLabel() == "Skystone") {
+                                    int firstforward = 110;
+
+                                    //pick it up
+                                    pickup(1); //pick up skystone
+                                    sleep(100);
+                                    encoderDrive(0.3, -0.3,-0.3,0.3,0.3, 10); //move stone to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    encoderDrive(0.3, 0.3,0.3,-0.3,-0.3, 5);
+                                    sleep(100);
+                                    //pick it up
+                                    pickup(1); //pick up second skystone
+                                    sleep(100);
+                                    encoderDrive(0.3, -0.3,-0.3,0.3,0.3, 5); //move to the end
+                                    sleep(100);
+                                    pickup(0); //release the servo
+                                    sleep(100);
+                                    break;
+                                }
+
                             }
-
-
-                            if (recognition.getLabel() == "Skystone") {
-                                int firstforward = 118;
-
-                                //pick it up
-                               /* pickup(1); //pick up skystone
-                                sleep(100);
-                                encoderDrive(0.3, firstforward, firstforward, firstforward, firstforward,0.5); //move stone to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                encoderDrive(0.3, -(firstforward-24), -(firstforward-24),-(firstforward-24),-(firstforward-24), 3);
-                                sleep(100);
-                                //pick it up
-                                pickup(1); //pick up second skystone
-                                sleep(100);
-                                encoderDrive(0.3,firstforward-24, firstforward-24,firstforward-24,firstforward-24, 3); //move to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                break;
-                            } else {
-                                encoderDrive(-0.5, 8,8,8,8,3);
-                            }*/
-
-
-                            /*if (recognition.getLabel() == "Skystone") {
-                                int firstforward = 110;
-
-                                //pick it up
-                                pickup(1); //pick up skystone
-                                sleep(100);
-                                encoderDrive(0.3, firstforward, firstforward, firstforward, firstforward,0.5); //move stone to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                encoderDrive(0.3, -(firstforward-24), -(firstforward-24),-(firstforward-24),-(firstforward-24), 3);
-                                sleep(100);
-                                //pick it up
-                                pickup(1); //pick up second skystone
-                                sleep(100);
-                                encoderDrive(0.3,firstforward-24, firstforward-24,firstforward-24,firstforward-24, 3); //move to the end
-                                sleep(100);
-                                pickup(0); //release the servo
-                                sleep(100);
-                                break;*/
-                            }
-
+                            telemetry.update();
                         }
-                        telemetry.update();
                     }
                 }
             }
-        }
 
-        if (tfod != null) {
-            tfod.shutdown();
+            if (tfod != null) {
+                tfod.shutdown();
+            }
         }
     }
 
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-                                private void initVuforia () {
-                                    /*
-                                     * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-                                     */
-                                    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+            /**
+             * Initialize the Vuforia localization engine.
+             */
+            private void initVuforia () {
+                /*
+                 * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+                 */
+                VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-                                    parameters.vuforiaLicenseKey = VUFORIA_KEY;
-                                    parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+                parameters.vuforiaLicenseKey = VUFORIA_KEY;
+                parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
-                                    //  Instantiate the Vuforia engine
-                                    vuforia = ClassFactory.getInstance().createVuforia(parameters);
+                //  Instantiate the Vuforia engine
+                vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-                                    // Loading trackables is not necessary for the TensorFlow Object Detection engine.
-                                }
+                // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+            }
 
-                                /**
-                                 * Initialize the TensorFlow Object Detection engine.
-                                 */
-                                private void initTfod () {
-                                    int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                                            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-                                    TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-                                    tfodParameters.minimumConfidence = 0.8;
-                                    tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-                                    tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-                                }
-                                public void encoderDrive ( double speed,
-                                double leftInches, double rightInches, double leftBackInches,
-                                double rightBackInches,
-                                double timeoutS){
-                                    int newLeftTarget;
-                                    int newLeftBackTarget;
-                                    int newRightTarget;
-                                    int newRightBackTarget;
+            /**
+             * Initialize the TensorFlow Object Detection engine.
+             */
+            private void initTfod () {
+                int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                        "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+                tfodParameters.minimumConfidence = 0.8;
+                tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+                tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+            }
+            public void encoderDrive ( double speed,
+            double leftInches, double rightInches, double leftBackInches,
+            double rightBackInches,
+            double timeoutS){
+                robot.fl.setPower(leftInches);
+                robot.bl.setPower(leftBackInches);
+                robot.fr.setPower(rightInches);
+                robot.br.setPower(rightBackInches);
+                runtime.reset();
+                while (opModeIsActive() && (runtime.seconds() < timeoutS)) {
+                    telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
 
-                                    // Ensure that the opmode is still active
-                                    if (opModeIsActive()) {
+                // Step 4:  Stop and close the claw.
+                robot.fl.setPower(0);
+                robot.bl.setPower(0);
+                robot.fr.setPower(0);
+                robot.br.setPower(0);
 
-                                        // Determine new target position, and pass to motor controller
-                                        newLeftTarget = robot.fl.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-                                        newRightTarget = robot.fr.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-                                        newLeftBackTarget = robot.bl.getCurrentPosition() + (int) (leftBackInches * COUNTS_PER_INCH);
-                                        newRightBackTarget = robot.br.getCurrentPosition() + (int) (rightBackInches * COUNTS_PER_INCH);
+                telemetry.addData("Path", "Complete");
+                telemetry.update();
+                sleep(1000);
+            }
+            public void pickup ( double position){
+                robot.drag.setPosition(position);
+            }
+        }
 
-                                        robot.fl.setTargetPosition(newLeftTarget);
-                                        robot.fr.setTargetPosition(newRightTarget);
-                                        robot.bl.setTargetPosition(newLeftBackTarget);
-                                        robot.br.setTargetPosition(newRightBackTarget);
-
-                                        // Turn On RUN_TO_POSITION
-                                        robot.fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                        robot.bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                        robot.fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                        robot.br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                        // reset the timeout time and start motion.
-                                        runtime.reset();
-                                        robot.fl.setPower(Math.abs(speed));
-                                        robot.bl.setPower(Math.abs(speed));
-                                        robot.fr.setPower(Math.abs(speed));
-                                        robot.br.setPower(Math.abs(speed));
-
-
-                                        // keep looping while we are still active, and there is time left, and both motors are running.
-                                        // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-                                        // its target position, the motion will stop.  This is "safer" in the event that the robot will
-                                        // always end the motion as soon as possible.
-                                        // However, if you require that BOTH motors have finished their moves before the robot continues
-                                        // onto the next step, use (isBusy() || isBusy()) in the loop test.
-                                        while (opModeIsActive() &&
-                                                (runtime.seconds() < timeoutS) &&
-                                                (robot.fl.isBusy() && robot.fr.isBusy() && robot.bl.isBusy() && robot.br.isBusy())) {
-
-                                            // Display it for the driver.
-                                            telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget, newLeftBackTarget, newRightBackTarget);
-                                            telemetry.addData("Path2", "Running at %7d :%7d",
-                                                    robot.fl.getCurrentPosition(),
-                                                    robot.bl.getCurrentPosition(),
-                                                    robot.fr.getCurrentPosition(),
-                                                    robot.br.getCurrentPosition());
-                                            telemetry.update();
-                                        }
-
-                                        // Stop all motion;
-                                        robot.fl.setPower(0);
-                                        robot.bl.setPower(0);
-                                        robot.fr.setPower(0);
-                                        robot.br.setPower(0);
-
-                                        // Turn off RUN_TO_POSITION
-                                        robot.fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                        robot.bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                        robot.fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                        robot.br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                                        //  sleep(250);   // optional pause after each move
-                                    }
-                                }
-    public void pickup(double position) {
-        robot.drag.setPosition(position);
-    }
-                            }

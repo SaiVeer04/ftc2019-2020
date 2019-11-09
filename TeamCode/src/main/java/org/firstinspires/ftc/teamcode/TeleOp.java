@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -27,7 +28,6 @@ public class TeleOp extends LinearOpMode {
 
 
         Servo test = hardwareMap.get(Servo.class, "test");
-        Servo paddle = hardwareMap.get(Servo.class, "paddle");
 
 
         FR = hardwareMap.get(DcMotor.class, "FR"); //initilization
@@ -43,10 +43,17 @@ public class TeleOp extends LinearOpMode {
 
 
         FL.setDirection(DcMotorSimple.Direction.REVERSE); //set left side motors to opposite so that the robot moves
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rotate.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rotate.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        string.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
        /*string.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //used fo encoders
         string.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
@@ -66,23 +73,24 @@ public class TeleOp extends LinearOpMode {
                 final double v3 = r * Math.sin(robotAngle) + rightX;
                 final double v4 = r * Math.cos(robotAngle) - rightX;
 
-                FL.setPower(v1);
-                FR.setPower(v2);
-                BL.setPower(v3);
-                BR.setPower(v4);
+                FL.setPower(-v1);
+                FR.setPower(-v2);
+                BL.setPower(-v3);
+                BR.setPower(-v4);
 
-                intakeLeft.setPower(gamepad1.left_trigger * 2);
-                intakeRight.setPower(gamepad1.left_trigger * 2);
 
-                intakeLeft.setPower(-gamepad1.right_trigger * 2);
-                intakeRight.setPower(-gamepad1.right_trigger * 2);
+                intakeLeft.setPower(gamepad1.left_trigger);
+                intakeRight.setPower(gamepad1.left_trigger);
+
+                intakeLeft.setPower(-gamepad1.right_trigger);
+                intakeRight.setPower(-gamepad1.right_trigger);
 
                 if (gamepad1.x) {
                     test.setPosition(0);
                 }
 
                 if (gamepad1.b) {
-                    test.setPosition(1);
+                    test.setPosition(0.5);
                 }
 
                 if(gamepad1.a){
@@ -133,20 +141,6 @@ public class TeleOp extends LinearOpMode {
                   rotate.setPower(1);
               if (gamepad1.dpad_right)
                   rotate.setPower(-1);*/
-
-
-
-                if (gamepad1.left_bumper)
-                {
-                    paddle.setPosition(0);
-                }
-                if (gamepad1.right_bumper)
-                {
-                    paddle.setPosition(1);
-                }
-
-
-
 
 
                 /*while (gamepad1.b) {
