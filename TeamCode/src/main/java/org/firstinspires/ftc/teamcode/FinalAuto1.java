@@ -1,20 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -26,9 +24,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Final Auto")
+@Autonomous(name = "Final Auto Blue")
 //@Disabled
-public class FinalAuto extends LinearOpMode {
+public class FinalAuto1 extends LinearOpMode {
     components robot = new components();
     /* Declare OpMode members. */
     // Use a Pushbot's hardware
@@ -104,29 +102,39 @@ public class FinalAuto extends LinearOpMode {
         // first.
 
 
+        /**
+         * Activate TensorFlow Object Detection before we wait for the start command.
+         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
+         **/
+        if (tfod != null) {
+            tfod.activate();
+        }
+
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        encoderDrive(.2, 1, 1, -1, -1, 0.55); //move out
+        encoderDrive(.2, 1, 1, -1,-1, 0.2); //move out
         sleep(400);
-        encoderDrive(.3, -1, 1, 1, -1, 1); //strafe right
+        encoderDrive(.3, -1, 1, 1, -1, 3); //strafe left
         sleep(400);
-        encoderDrive(.2, 1, 1, -1, -1, 0.3); //move back because strafing moves back
+        /*encoderDrive(.2, 1, 1, -1,-1, 0.3); //move back because strafing moves back
         robot.foundation.setPower(-0.5); //latch
         sleep(2000);
         encoderDrive(.2, -0.3, -0.3, 0.3, 0.3, 1.8); //move back
-        sleep(800);
+        sleep(400);
         robot.foundation.setPower(0.5); //unlatch
-        sleep(800);
-        encoderDrive(.3, 1, -1, -1, 1, 1.5); //strafe left to be to the side
         sleep(400);
-        encoderDrive(.2, 1, 1, -1, -1, 0.80); //move to the front of the robot
+        encoderDrive(.3, -1, 1, 1, -1, 1.5); //strafe right to be to the side
         sleep(400);
-        encoderDrive(.3, -1, 1, 1, -1, 1.2); //strafe right to be in the center
+        encoderDrive(.2, 1, 1, -1,-1, 0.8); //move to the front of the robot
+        sleep(400);
+        encoderDrive(.3, 1, -1, -1, 1, 1.2); //strafe left to be in the center
         sleep(400);
         encoderDrive(.2, -0.3, -0.3, 0.3, 0.3, 1.8); //move back to the depot
         sleep(400);
+        
+
 
 
         encoderDrive(.3, 1, 1, -1, -1, 0.3); //move back a little bit
@@ -134,9 +142,13 @@ public class FinalAuto extends LinearOpMode {
         encoderDrive(.3, -1, 1, -1, 1, 0.7); //rotate
         sleep(2000);
         encoderDrive(.3, 1, 1, -1, -1, 0.8); //move to the red tape
-        sleep(200);
+        sleep(200);*/
 
-    }
+
+
+
+
+        }
 
 
             /**

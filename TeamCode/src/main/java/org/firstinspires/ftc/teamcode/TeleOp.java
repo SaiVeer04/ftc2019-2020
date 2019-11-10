@@ -22,6 +22,7 @@ public class TeleOp extends LinearOpMode {
     DcMotor intakeRight;
 
     DcMotor string, rotate;
+    public CRServo foundation;
     public static final double INCREMENT = .1;
     public void runOpMode() throws InterruptedException {
 
@@ -40,6 +41,7 @@ public class TeleOp extends LinearOpMode {
 
         string = hardwareMap.get(DcMotor.class, "string");
         rotate = hardwareMap.get(DcMotor.class, "rotate");
+        foundation = hardwareMap.crservo.get("foundation");
 
 
         FL.setDirection(DcMotorSimple.Direction.REVERSE); //set left side motors to opposite so that the robot moves
@@ -73,10 +75,10 @@ public class TeleOp extends LinearOpMode {
                 final double v3 = r * Math.sin(robotAngle) + rightX;
                 final double v4 = r * Math.cos(robotAngle) - rightX;
 
-                FL.setPower(-v1);
-                FR.setPower(-v2);
-                BL.setPower(-v3);
-                BR.setPower(-v4);
+                FL.setPower(v1);
+                FR.setPower(v2);
+                BL.setPower(v3);
+                BR.setPower(v4);
 
 
                 intakeLeft.setPower(gamepad1.left_trigger);
@@ -114,6 +116,14 @@ public class TeleOp extends LinearOpMode {
                 }
                 else if (gamepad1.dpad_left == false || gamepad1.dpad_right == false){
                     rotate.setPower(0);
+                }
+
+                if (gamepad1.left_bumper) {
+                    foundation.setPower(0.5);
+                }
+
+                if (gamepad1.right_bumper) {
+                    foundation.setPower(-0.5);
                 }
                 //string.setPower(boolToInt(gamepad1.y, 0)*2);
                // string.setPower(-(boolToInt(gamepad1.a, 0)));
