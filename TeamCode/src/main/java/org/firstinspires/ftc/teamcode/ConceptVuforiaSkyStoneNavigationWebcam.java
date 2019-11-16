@@ -141,6 +141,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
     private float phoneZRotate    = 0;
 
     @Override public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap);
+
         /*
          * Retrieve the camera we are to use.
          */
@@ -325,8 +327,36 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
         waitForStart();
         moveForward(.4,250,500);
-        strafeLeft(.7,1900,500);
+        strafeLeft(.7,1775,500);
         moveBackWard(.4,850,500);
+        //moveForward(.4,350,500);
+       // strafeLeft(.4,550,200);
+        while(true){
+            if(robot.stoneSensor.red() < 1 && robot.stoneSensor.blue() < 1 && robot.stoneSensor.green() < 1){
+                stopRobot();
+                break;
+            }
+            else{
+                moveForward(.4,75,75);
+            }
+        }
+        moveForward(.4,200,200);
+
+        robot.drag.setPosition(0);
+        sleep(1000);
+
+        strafeRight(1,1500,500);
+        moveBackWard(.4,800,500);
+        strafeLeft(.4,700,500);
+        while(true){
+            if(robot.sensorColor.red() > 40){
+                stopRobot();
+                break;
+            }
+            else{
+                moveForward(.7,75,75);
+            }
+        }
 
         // Note: To use the remote camera preview:
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
@@ -368,7 +398,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
             else {
-               moveForward(.3,75,75);
+              // moveForward(.3,25,125);
                 telemetry.addLine("Keep Moving");
             }
             telemetry.update();
@@ -377,7 +407,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
     }
-    public void moveForward(double power,int movement,int sleep) throws InterruptedException{
+    public void moveForward(double power,int movement,int sleep) throws InterruptedException
+    {
         robot.fl.setPower(-power);
         robot.bl.setPower(power);
         robot.fr.setPower(-power);
@@ -389,7 +420,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         robot.br.setPower(0);
         sleep(sleep);
     }
-    public void moveBackWard(double power,int movement,int sleep) throws InterruptedException{
+    public void moveBackWard(double power,int movement,int sleep) throws InterruptedException
+    {
         robot.fl.setPower(power);
         robot.bl.setPower(-power);
         robot.fr.setPower(power);
@@ -401,7 +433,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         robot.br.setPower(0);
         sleep(sleep);
     }
-    public void strafeLeft (double power,int movement,int sleep) throws InterruptedException{
+    public void strafeLeft (double power,int movement,int sleep) throws InterruptedException
+    {
         robot.fl.setPower(-power);
         robot.bl.setPower(power);
         robot.fr.setPower(power);
@@ -413,7 +446,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         robot.br.setPower(0);
         sleep(sleep);
     }
-    public void strafeRight(double power,int movement,int sleep) throws InterruptedException{
+    public void strafeRight(double power,int movement,int sleep) throws InterruptedException
+    {
         robot.fl.setPower(power);
         robot.bl.setPower(-power);
         robot.fr.setPower(-power);
@@ -425,7 +459,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         robot.br.setPower(0);
         sleep(sleep);
     }
-    public void stopRobot(){
+    public void stopRobot()
+    {
         robot.fl.setPower(0);
         robot.bl.setPower(0);
         robot.fr.setPower(0);

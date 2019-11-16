@@ -5,8 +5,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static java.lang.Thread.sleep;
@@ -37,6 +39,8 @@ public class componentsHardCode {
     public DcMotor rotate;
     // Color sensor
     public ColorSensor sensorColor;
+    public ColorSensor stoneSensor;
+    public DigitalChannel touch;
     //
     public CRServo foundation;
 
@@ -51,6 +55,7 @@ public class componentsHardCode {
         br = hwMap.dcMotor.get("BR");
         bl = hwMap.dcMotor.get("BL");
         foundation = hwMap.crservo.get("foundation");
+        touch = hwMap.get(DigitalChannel.class,"sensor_digital");
 
         //extra motors
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
@@ -62,6 +67,10 @@ public class componentsHardCode {
         drag = hwMap.servo.get("drag");
         //ETC
         sensorColor = hwMap.colorSensor.get("sensorColor");
+        stoneSensor = hwMap.colorSensor.get("stone");
+
+
+        touch.setMode(DigitalChannel.Mode.INPUT);
 
 
         //
