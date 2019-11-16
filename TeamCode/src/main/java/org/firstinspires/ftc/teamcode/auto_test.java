@@ -8,7 +8,7 @@ public class auto_test extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
 
-        //balsjacs;nxv;;
+
         waitForStart();
 
            // telemetry.addData("Red  ", robot.sensorColor.red());
