@@ -45,8 +45,8 @@ public class TeleOp extends LinearOpMode {
 
 
         FL.setDirection(DcMotorSimple.Direction.REVERSE); //set left side motors to opposite so that the robot moves
-        //BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //BR.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rotate.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -67,7 +67,7 @@ public class TeleOp extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+                /*double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
                 double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
                 double rightX = gamepad1.right_stick_x;
                 final double v1 = r * Math.cos(robotAngle) + rightX;
@@ -78,7 +78,21 @@ public class TeleOp extends LinearOpMode {
                 FL.setPower(v1);
                 FR.setPower(v2);
                 BL.setPower(v3);
-                BR.setPower(v4);
+                BR.setPower(v4);*/
+
+                double x = gamepad1.left_stick_x;
+                double y = gamepad1.left_stick_y;
+                double r = gamepad1.right_stick_x;
+
+                double fl = + x + y + r;
+                double fr = - x + y - r;
+                double bl = - x - y + r;
+                double br = + x - y - r;
+
+                FL.setPower(fl);
+                FR.setPower(fr);
+                BL.setPower(bl);
+                BR.setPower(br);
 
 
                 intakeLeft.setPower(gamepad1.left_trigger);
@@ -87,42 +101,48 @@ public class TeleOp extends LinearOpMode {
                 intakeLeft.setPower(-gamepad1.right_trigger);
                 intakeRight.setPower(-gamepad1.right_trigger);
 
-                if (gamepad1.x) {
+                intakeLeft.setPower(gamepad2.left_trigger);
+                intakeRight.setPower(gamepad2.left_trigger);
+
+                intakeLeft.setPower(-gamepad2.right_trigger);
+                intakeRight.setPower(-gamepad2.right_trigger);
+
+                if (gamepad2.x) {
                     test.setPosition(0);
                 }
 
-                if (gamepad1.b) {
+                if (gamepad2.b) {
                     test.setPosition(0.5);
                 }
 
-                if(gamepad1.a){
+                if(gamepad2.a){
                     string.setPower(0.5);
                 }
 
-                else if(gamepad1.y){
+                else if(gamepad2.y){
                     string.setPower(-0.5);
                 }
-                else if (gamepad1.a == false || gamepad1.y == false){
+                else if (gamepad2.a == false || gamepad2.y == false){
                     string.setPower(0);
                 }
 
                 //motor rotation code
-                if(gamepad1.dpad_left){
+                if(gamepad2.dpad_left){
                     rotate.setPower(0.1);
                 }
 
-                else if(gamepad1.dpad_right){
+                else if(gamepad2.dpad_right){
                     rotate.setPower(-0.1);
                 }
-                else if (gamepad1.dpad_left == false || gamepad1.dpad_right == false){
+                else if (gamepad2.dpad_left == false || gamepad2.dpad_right == false){
                     rotate.setPower(0);
                 }
 
-                if (gamepad1.left_bumper) {
+                if (gamepad2.left_bumper) {
                     foundation.setPower(0.5);
                 }
 
-                if (gamepad1.right_bumper) {
+                if (gamepad2.right_bumper) {
                     foundation.setPower(-0.5);
                 }
                 //string.setPower(boolToInt(gamepad1.y, 0)*2);
