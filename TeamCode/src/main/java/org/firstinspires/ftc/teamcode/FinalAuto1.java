@@ -113,11 +113,30 @@ public class FinalAuto1 extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
+
         waitForStart();
-        encoderDrive(.2, 1, 1, -1,-1, 0.2); //move out
-        sleep(400);
-        encoderDrive(.3, -1, 1, 1, -1, 3); //strafe left
-        sleep(400);
+        encoderDrive(.2,1,1,-1,-1,.2); //move forward
+        sleep(500);
+        robot.drag.setPosition(0); //grab foundation
+        sleep(500);
+        encoderDrive(.2,-1,-1,1,1,.2); // move back
+        sleep(500);
+        encoderDrive(.2,1,1,1,1,.2); //rotate
+        sleep (500);
+        encoderDrive(.2, 1,-1,-1,1,.2); //strafe left
+        sleep (500);
+        encoderDrive(.2,.1,.1,-.1,-.1,.2);//move forward a little to push block in
+        sleep(500);
+        robot.drag.setPosition(1); //release block
+        sleep(500);
+        encoderDrive(.2,-30,-30,30,30,.2); //move back
+        sleep (500);
+
+
+        //encoderDrive(.2, 1, 1, -1,-1, 0.2); //move out
+        //sleep(400);
+        //encoderDrive(.3, -1, 1, 1, -1, 3); //strafe left
+        //sleep(400);
         /*encoderDrive(.2, 1, 1, -1,-1, 0.3); //move back because strafing moves back
         robot.foundation.setPower(-0.5); //latch
         sleep(2000);
