@@ -146,7 +146,8 @@ public class Tensorflow_test extends LinearOpMode {
 
         if (opModeIsActive()) {
             //go forward
-           robot.fl.setPower(-.4);
+            moveForward(.4,250,500);
+           /*robot.fl.setPower(-.4);
            robot.bl.setPower(.4);
            robot.fr.setPower(-.4);
            robot.br.setPower(.4);
@@ -155,9 +156,10 @@ public class Tensorflow_test extends LinearOpMode {
            robot.bl.setPower(0);
            robot.fr.setPower(0);
            robot.br.setPower(0);
-           sleep(500);
+           sleep(500);*/
            //strafe left
-            robot.fl.setPower(-.7);
+            strafeLeft(.7,1900,500);
+            /*robot.fl.setPower(-.7);
             robot.bl.setPower(.7);
             robot.fr.setPower(.7);
             robot.br.setPower(-.7);
@@ -166,9 +168,10 @@ public class Tensorflow_test extends LinearOpMode {
             robot.bl.setPower(0);
             robot.fr.setPower(0);
             robot.br.setPower(0);
-            sleep(500);
+            sleep(500);*/
             //go backwards to align with wall
-            robot.fl.setPower(.4);
+            moveBackWard(.4,850,500);
+            /*robot.fl.setPower(.4);
             robot.bl.setPower(-.4);
             robot.fr.setPower(.4);
             robot.br.setPower(-.4);
@@ -177,7 +180,7 @@ public class Tensorflow_test extends LinearOpMode {
             robot.bl.setPower(0);
             robot.fr.setPower(0);
             robot.br.setPower(0);
-            sleep(500);
+            sleep(500);*/
 
 
             while (opModeIsActive()) {
@@ -188,7 +191,9 @@ public class Tensorflow_test extends LinearOpMode {
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
 
+
                         // step through the list of recognitions and display boundary info.
+
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
 
@@ -197,7 +202,7 @@ public class Tensorflow_test extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
-                          if(recognition.getLabel() == "Skystone"){
+
                               double imageHeight = recognition.getImageHeight();
                               double objectHeight= recognition.getHeight();
                               double ratio = imageHeight/objectHeight;
@@ -207,23 +212,14 @@ public class Tensorflow_test extends LinearOpMode {
                               robot.fr.setPower(0);
                               robot.br.setPower(0);
                               sleep(5000);
-                          }
-                          else if (recognition.getLabel() == "Stone"){
-                              robot.fl.setPower(.4);
-                              robot.bl.setPower(-.4);
-                              robot.fr.setPower(.4);
-                              robot.br.setPower(-.4);
-                              Thread.sleep(75);
-                              sleep(75);
-                          }
 
                         }
                         telemetry.update();
                     }else if(updatedRecognitions == null){
-                        robot.fl.setPower(.4);
-                        robot.bl.setPower(-.4);
-                        robot.fr.setPower(.4);
-                        robot.br.setPower(-.4);
+                        robot.fl.setPower(-.3);
+                        robot.bl.setPower(.3);
+                        robot.fr.setPower(-.3);
+                        robot.br.setPower(.3);
                         Thread.sleep(75);
                         sleep(75);
                     }
@@ -261,7 +257,7 @@ public class Tensorflow_test extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.8;
+        tfodParameters.minimumConfidence = 0.7;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
@@ -291,16 +287,58 @@ public class Tensorflow_test extends LinearOpMode {
         sleep(1000);
     }
     public void moveForward(double power,int movement,int sleep) throws InterruptedException{
-        robot.fl.setPower(-.4);
-        robot.bl.setPower(.4);
-        robot.fr.setPower(-.4);
-        robot.br.setPower(.4);
-        Thread.sleep(250);
+        robot.fl.setPower(-power);
+        robot.bl.setPower(power);
+        robot.fr.setPower(-power);
+        robot.br.setPower(power);
+        Thread.sleep(movement);
         robot.fl.setPower(0);
         robot.bl.setPower(0);
         robot.fr.setPower(0);
         robot.br.setPower(0);
-        sleep(500);
+        sleep(sleep);
+    }
+    public void moveBackWard(double power,int movement,int sleep) throws InterruptedException{
+        robot.fl.setPower(power);
+        robot.bl.setPower(-power);
+        robot.fr.setPower(power);
+        robot.br.setPower(-power);
+        Thread.sleep(movement);
+        robot.fl.setPower(0);
+        robot.bl.setPower(0);
+        robot.fr.setPower(0);
+        robot.br.setPower(0);
+        sleep(sleep);
+    }
+    public void strafeLeft (double power,int movement,int sleep) throws InterruptedException{
+        robot.fl.setPower(-power);
+        robot.bl.setPower(power);
+        robot.fr.setPower(power);
+        robot.br.setPower(-power);
+        Thread.sleep(movement);
+        robot.fl.setPower(0);
+        robot.bl.setPower(0);
+        robot.fr.setPower(0);
+        robot.br.setPower(0);
+        sleep(sleep);
+    }
+    public void strafeRight(double power,int movement,int sleep) throws InterruptedException{
+        robot.fl.setPower(power);
+        robot.bl.setPower(-power);
+        robot.fr.setPower(-power);
+        robot.br.setPower(power);
+        Thread.sleep(movement);
+        robot.fl.setPower(0);
+        robot.bl.setPower(0);
+        robot.fr.setPower(0);
+        robot.br.setPower(0);
+        sleep(sleep);
+    }
+    public void stopRoobot(){
+        robot.fl.setPower(0);
+        robot.bl.setPower(0);
+        robot.fr.setPower(0);
+        robot.br.setPower(0);
     }
 
 }
