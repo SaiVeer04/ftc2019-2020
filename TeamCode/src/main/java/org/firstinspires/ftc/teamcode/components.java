@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -52,6 +53,8 @@ public class components{
     //
     public CRServo foundation;
 
+    public DigitalChannel digitalTouch;
+
 
 
     HardwareMap hwMap =  null;
@@ -75,6 +78,11 @@ public class components{
         drag = hwMap.servo.get("drag");
         //ETC
         sensorColor = hwMap.colorSensor.get("sensorColor");
+
+        digitalTouch = hwMap.get(DigitalChannel.class, "sensor_digital");
+
+        // set the digital channel to input.
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
 
         //

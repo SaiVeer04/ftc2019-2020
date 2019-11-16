@@ -115,19 +115,38 @@ public class FinalAuto1 extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        encoderDrive(.2,1,1,-1,-1,.2); //move forward
+        while (robot.digitalTouch.getState() == true) { //move forward until the robot touches
+
+            robot.fl.setPower(0.2);
+            robot.fr.setPower(0.2);
+            robot.bl.setPower(-0.2);
+            robot.br.setPower(-0.2);
+
+            if (robot.digitalTouch.getState() == false) {
+                robot.fl.setPower(0);
+                robot.fr.setPower(0);
+                robot.bl.setPower(0);
+                robot.br.setPower(0);
+                break;
+            }
+
+
+
+        }
         sleep(500);
-        robot.drag.setPosition(0); //grab foundation
-        sleep(500);
-        encoderDrive(.2,-1,-1,1,1,.2); // move back
+        encoderDrive (.2, -1,1,1,1,1.5); //strafe right
+        sleep (500 );
+        robot.foundation.setPower(-0.5); //latch
+        sleep (500);
+        encoderDrive(.2,-1,-1,1,1,.5); // move back
         sleep(500);
         encoderDrive(.2,1,1,1,1,.2); //rotate
         sleep (500);
-        encoderDrive(.2, 1,-1,-1,1,.2); //strafe left
+        encoderDrive(.2, 1,-1,-1,1,.5); //strafe left
         sleep (500);
-        encoderDrive(.2,.1,.1,-.1,-.1,.2);//move forward a little to push block in
+        encoderDrive(.2,.1,.1,-.1,-.1,.5);//move forward a little to push block in
         sleep(500);
-        robot.drag.setPosition(1); //release block
+        robot.foundation.setPower(0.5); //release block
         sleep(500);
         encoderDrive(.2,-30,-30,30,30,.2); //move back
         sleep (500);
