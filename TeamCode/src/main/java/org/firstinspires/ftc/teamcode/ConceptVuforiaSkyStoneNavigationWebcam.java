@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -327,7 +328,8 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
         waitForStart();
         moveForward(.4,250,500);
-        strafeLeft(.7,1775,500);
+
+        strafeLeft(.7,1500,500);
         moveBackWard(.4,850,500);
         //moveForward(.4,350,500);
        // strafeLeft(.4,550,200);

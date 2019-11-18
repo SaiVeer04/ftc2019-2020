@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -115,24 +115,24 @@ public class TeleOp extends LinearOpMode {
                     test.setPosition(0.5);
                 }
 
-                if(gamepad2.a){
-                    string.setPower(0.5);
+                if(gamepad2.dpad_down){
+                    string.setPower(1);
                 }
 
-                else if(gamepad2.y){
-                    string.setPower(-0.5);
+                else if(gamepad2.dpad_up){
+                    string.setPower(-1);
                 }
-                else if (gamepad2.a == false || gamepad2.y == false){
+                else if (gamepad2.dpad_up == false || gamepad2.dpad_down == false){
                     string.setPower(0);
                 }
 
                 //motor rotation code
                 if(gamepad2.dpad_left){
-                    rotate.setPower(0.1);
+                    rotate.setPower(0.05);
                 }
 
                 else if(gamepad2.dpad_right){
-                    rotate.setPower(-0.1);
+                    rotate.setPower(-0.05);
                 }
                 else if (gamepad2.dpad_left == false || gamepad2.dpad_right == false){
                     rotate.setPower(0);

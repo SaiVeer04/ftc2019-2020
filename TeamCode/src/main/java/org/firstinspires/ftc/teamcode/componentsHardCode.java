@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -40,6 +41,7 @@ public class componentsHardCode {
     // Color sensor
     public ColorSensor sensorColor;
     public ColorSensor stoneSensor;
+    public DistanceSensor dist;
     public DigitalChannel touch;
     //
     public CRServo foundation;
@@ -68,7 +70,7 @@ public class componentsHardCode {
         //ETC
         sensorColor = hwMap.colorSensor.get("sensorColor");
         stoneSensor = hwMap.colorSensor.get("stone");
-
+        dist = hwMap.get(DistanceSensor.class,"stone");
 
         touch.setMode(DigitalChannel.Mode.INPUT);
 

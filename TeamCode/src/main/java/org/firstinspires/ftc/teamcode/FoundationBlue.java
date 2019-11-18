@@ -23,7 +23,7 @@ public class FoundationBlue extends LinearOpMode {
             strafeRight(1, 350, 500);
             //latch on
             robot.foundation.setPower(-0.5);
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             sleep(500);
 
             // go back
@@ -33,13 +33,14 @@ public class FoundationBlue extends LinearOpMode {
             robot.foundation.setPower(0.5);
             Thread.sleep(2000);
             sleep(500);
-            strafeLeft(1,1700,500);
-            moveForward(.4,700,500);
-            moveBackWard(.4,1150,500);
+            moveBackWard(.4,800,500);
+            strafeLeft(1,2000,500);
+            moveForward(.4,1000,500);
+            moveBackWard(.4,900,500);
             strafeRight(1,1050,500);
             while(true){
                 if(robot.sensorColor.red() < 40){
-                    strafeRight(1,75,0);
+                    strafeLeft(1,75,0);
                 }else if(robot.sensorColor.red() < 40){
                     break;
                 }
