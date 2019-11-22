@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.DogeCV;
+import com.disnodeteam.dogecv.filters.LeviColorFilter;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,10 +11,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 
 public class TeleOp extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
+    StoneAlignTest detector = new StoneAlignTest();
 
     DcMotor FR = null; //declaration of motors
     DcMotor FL = null;
@@ -20,18 +26,21 @@ public class TeleOp extends LinearOpMode {
 
     DcMotor intakeLeft;
     DcMotor intakeRight;
+    WebcamName webcamName;
 
     DcMotor string, rotate;
     public CRServo foundation;
     public static final double INCREMENT = .1;
     public void runOpMode() throws InterruptedException {
-
-
+        //init
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        detector.VUFORIA_KEY = "AVF+IPr/////AAABmSIHgAGLI0ODn254a6Sw3UQK0VqDJcWazHjdrhyfBcJdjHXFe3pv6C0EYG8QGSLhOfCTPGxj3GgfzXF/ndSARshwvj7P3SrpPLgvKVZyl5tPjFYSCIU6r3CzQTmFXGut7tgCZjTS59auWpsAZJSLeO76pI2oqQ5aga+MMDlaQ6i2IM3TbaqrcamwoPfElmTc/kb6qMqibv98MGhAflk0Rv1fHEoTjmBw6WzMI5pWn5QEPtjwW2JaS5JsLZu0jQWu9qn6Wz35u9yLrs8rA8ChOIvQemWFUuTzlteADKNPnogFOWZQv4iur/22GphGP+Cu/65iAV6r+RkBnQ3oiRspOi3J4QliYBnbrSokwkBHiyhW";
+        detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), DogeCV.CameraMode.WEBCAM, false, webcamName);
 
         Servo test = hardwareMap.get(Servo.class, "test");
 
 
-        FR = hardwareMap.get(DcMotor.class, "FR"); //initilization
+        FR = hardwareMap.get(DcMotor.class, "FR");
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
@@ -57,8 +66,13 @@ public class TeleOp extends LinearOpMode {
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         string.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-       /*string.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //used fo encoders
-        string.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
+        detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100); // Create new filter
+        detector.useDefaults(); // Use default settings
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
+
+        detector.enable();
+
 
 
         waitForStart(); //when the driver clicks play
@@ -145,39 +159,20 @@ public class TeleOp extends LinearOpMode {
                 if (gamepad2.right_bumper) {
                     foundation.setPower(-0.5);
                 }
-                //string.setPower(boolToInt(gamepad1.y, 0)*2);
-               // string.setPower(-(boolToInt(gamepad1.a, 0)));
 
-               // rotate.setPower(boolToInt(gamepad1.dpad_right, .6));
-               // rotate.setPower(-(boolToInt(gamepad1.dpad_left, .1)));
-               /* if(gamepad1.dpad_left) {
-                    rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rotate.setTargetPosition(100);
-                    rotate.setPower(.2);
+
+                        if(detector.getXPosition() == 320.0){
+
+                            telemetry.addLine("Aligned");
+                        }
+                    }
                 }
-                if(gamepad1.dpad_right) {
-                    rotate.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    rotate.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rotate.setTargetPosition(-100);
-                    rotate.setPower(.2);
-                }*/
+                telemetry.addData("Is Found: ", detector.isFound());
+                telemetry.addData("X Pos: ",detector.getXPosition());
+                telemetry.addData("Y Pos: ",detector.getYPosition());
+                telemetry.update();
 
 
-               // rotate.setPower(gamepad1.right_trigger);
-               // rotate.setPower(-gamepad1.left_trigger);
-
-              /*if (gamepad1.dpad_left)
-                  rotate.setPower(1);
-              if (gamepad1.dpad_right)
-                  rotate.setPower(-1);*/
-
-
-                /*while (gamepad1.b) {
-                    rotate.setPower(-0.4);
-                    if (!gamepad1.b) {
-                        rotate.setPower(0);
-                    }*/
             }
 
 

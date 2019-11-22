@@ -9,7 +9,7 @@ public class ParkRed extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
         waitForStart();
-       strafeRight(.7,800,500);
+       strafeLeft(.7,1600,500);
         while(true){
             if(robot.sensorColor.red() <= 40){
                 moveForward(.3,75,75);

@@ -10,15 +10,16 @@ public class SkystoneRed  extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
         //got to block
-        strafeLeft(.7,1600,500);
+        strafeLeft(1,1600,500);
         //clamp block
         robot.drag.setPosition(0);
+        sleep(500);
         //strafe out
-        strafeRight(.7,800,500);
+        strafeRight(.7,1500,500);
         //move forward until red
         while(true){
             if(robot.sensorColor.red() <= 40){
-                moveForward(.3,75,75);
+                moveForward(.7,75,0);
 
             }else if(robot.sensorColor.red() > 40){
                 break;
