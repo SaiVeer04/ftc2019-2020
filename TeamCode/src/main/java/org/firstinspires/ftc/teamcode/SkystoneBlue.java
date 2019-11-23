@@ -9,27 +9,43 @@ public class SkystoneBlue extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
         waitForStart();
-        //got to block
-        strafeRight(.7,1600,500);
-        //clamp block
+        strafeLeft(0.8, 15500, 150); //strafe left to the stones
+        moveForward(0.5, 1000, 500); //move forward to straighten the robot out
+        moveBackWard(0.5, 100, 500); //move backward from wall
 
-        //strafe out
-        strafeLeft(.7,800,500);
-        //move forward until red
+
         while(true){
-            if(robot.sensorColor.blue() <= 40){
-                moveBackWard(.3,75,75);
-
-            }else if(robot.sensorColor.blue() > 40){
+            sleep(2000);
+            if(robot.stoneSensor.red() < 1 && robot.stoneSensor.blue() < 1 && robot.stoneSensor.green() < 1){
+                stopRobot();
+                strafeLeft(0.8, 200 , 100);
+                robot.drag.setPower(-0.5);
+                sleep(1000);
                 break;
             }
+            else{
+                moveBackWard(.4,75,75);
+            }
         }
-        //move extra just in case
-        moveBackWard(.4,1000,500);
-        //drop
+        strafeRight(.8, 1850, 200); //strafe back to wall
+        int count = 0;
+        while (robot.stoneSensor.blue()<30){
+            moveBackWard(.5, 150, 100);
+            stopRobot();
+            sleep(1000);
+            if(robot.stoneSensor.blue()>=30){
+                stopRobot();
+                break;
+            }
 
-        //then park
-        moveForward(.4,1000,500);
+
+            count+=150;
+        }
+        moveBackWard(.5,750,3000);
+        robot.drag.setPower(.5);
+        sleep(1000);
+        moveForward(.5,750+count-450,200);
+
 
 
     }
@@ -82,6 +98,14 @@ public class SkystoneBlue extends LinearOpMode {
         sleep(sleep);
     }
     public void stopRoobot(){
+        robot.fl.setPower(0);
+        robot.bl.setPower(0);
+        robot.fr.setPower(0);
+        robot.br.setPower(0);
+    }
+
+    public void stopRobot()
+    {
         robot.fl.setPower(0);
         robot.bl.setPower(0);
         robot.fr.setPower(0);

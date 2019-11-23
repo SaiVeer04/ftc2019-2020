@@ -92,7 +92,7 @@ public class SensorREVColorDistance extends LinearOpMode {
     public void runOpMode() {
 
         // get a reference to the color sensor.
-        sensorColor = hardwareMap.get(ColorSensor.class, "stone");
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensorColor");
 
         // get a reference to the distance sensor that shares the same name.
         sensorDistance = hardwareMap.get(DistanceSensor.class, "stone");
