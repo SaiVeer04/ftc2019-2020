@@ -160,6 +160,10 @@ public class TeleOp extends LinearOpMode {
                     foundation.setPower(-0.5);
                 }
 
+                if (gamepad2.y) {
+                    moveForward(-0.05, 3000, 200);
+                }
+
 
                         if(detector.getXPosition() == 320.0){
 
@@ -175,32 +179,12 @@ public class TeleOp extends LinearOpMode {
 
             }
 
+    public void moveForward(double power,int movement,int sleep) throws InterruptedException{
+        rotate.setPower(power);
+        Thread.sleep(movement);
+        rotate.setPower(0);
+        sleep(sleep);
+    }
+
 
         }
-
-
-    }
-
-    double boolToInt(boolean b, double limit) {
-        if (b)
-            return 1 - limit;
-        return 0;
-    }
-
-    void movement(int encoders, DcMotor motor) {
-        motor.setTargetPosition(encoders); //sets the distance of the motor
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION); //tells the motor to go the distance of the encoder
-        motor.setPower(0.3); //speed of the motor
-
-        while (opModeIsActive() && //use this method to prevent skipping of encoders
-                motor.isBusy()) {
-
-        }
-
-        // Stop all motion;
-        motor.setPower(0);
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        // Turn off RUN_TO_POSITION
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-}
