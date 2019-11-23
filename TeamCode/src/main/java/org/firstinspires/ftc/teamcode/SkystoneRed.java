@@ -9,10 +9,12 @@ public class SkystoneRed  extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
         waitForStart();
+        //moveBackWard(.5,100,500);
         //got to block
         strafeLeft(1,1600,500);
         //clamp block
-        robot.drag.setPosition(0);
+        robot.drag.setPower(-0.5);
+        Thread.sleep(3000);
         sleep(500);
         //strafe out
         strafeRight(.7,1500,500);
@@ -28,7 +30,9 @@ public class SkystoneRed  extends LinearOpMode {
         //move extra just in case
         moveForward(.4,1000,500);
         //drop
-        robot.drag.setPosition(0);
+        robot.drag.setPower(0.5);
+        Thread.sleep(3000);
+        sleep(500);
         //then park
         moveBackWard(.4,1000,500);
 

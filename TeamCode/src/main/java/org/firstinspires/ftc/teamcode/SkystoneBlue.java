@@ -12,7 +12,7 @@ public class SkystoneBlue extends LinearOpMode {
         //got to block
         strafeRight(.7,1600,500);
         //clamp block
-        robot.drag.setPosition(0);
+
         //strafe out
         strafeLeft(.7,800,500);
         //move forward until red
@@ -27,7 +27,7 @@ public class SkystoneBlue extends LinearOpMode {
         //move extra just in case
         moveBackWard(.4,1000,500);
         //drop
-        robot.drag.setPosition(0);
+
         //then park
         moveForward(.4,1000,500);
 

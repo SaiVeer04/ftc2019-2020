@@ -33,7 +33,7 @@ public class componentsHardCode {
     //Servo paddle
     public Servo paddle;
     //Servo Drag
-    public Servo drag;
+    public CRServo drag;
     //spool motor
     public DcMotor string;
     //rotate motor
@@ -66,7 +66,7 @@ public class componentsHardCode {
         rotate = hwMap.dcMotor.get("rotate");
 
         //Servo
-        drag = hwMap.servo.get("drag");
+        drag = hwMap.crservo.get("drag");
         //ETC
         sensorColor = hwMap.colorSensor.get("sensorColor");
         stoneSensor = hwMap.colorSensor.get("stone");
@@ -76,7 +76,7 @@ public class componentsHardCode {
 
 
         //
-        drag.setPosition(1);
+
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);

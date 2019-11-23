@@ -344,7 +344,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         }
         moveForward(.4,200,200);
 
-        robot.drag.setPosition(0);
+        //robot.drag.setPosition(0);
         sleep(1000);
 
         strafeRight(1,1500,500);
