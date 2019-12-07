@@ -3,16 +3,28 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @Autonomous(name = "SkystoneBlue")
 public class SkystoneBlue extends LinearOpMode {
     componentsHardCode robot = new componentsHardCode();
     public void runOpMode() throws InterruptedException{
         robot.init(hardwareMap);
         waitForStart();
-        strafeLeft(0.8, 15500, 150); //strafe left to the stones
+        strafeLeft(0.8, 1550, 150); //strafe left to the stones
+
         moveForward(0.5, 1000, 500); //move forward to straighten the robot out
         moveBackWard(0.5, 100, 500); //move backward from wall
+        while(true){
+            if(robot.dist.getDistance(DistanceUnit.CM) > 6){
+                strafeLeft(.8,25,25);
 
+            }
+            else if(robot.dist.getDistance(DistanceUnit.CM)<=6){
+                stopRobot();
+                break;
+            }
+        }
 
         while(true){
             sleep(2000);

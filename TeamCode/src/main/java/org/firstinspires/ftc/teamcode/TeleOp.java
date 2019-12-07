@@ -32,7 +32,7 @@ public class TeleOp extends LinearOpMode {
     public static final double INCREMENT = .1;
     public void runOpMode() throws InterruptedException {
         //init
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+       // webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
 
         Servo test = hardwareMap.get(Servo.class, "test");
@@ -48,11 +48,12 @@ public class TeleOp extends LinearOpMode {
 
         string = hardwareMap.get(DcMotor.class, "string");
         rotate = hardwareMap.get(DcMotor.class, "rotate");
-        foundation = hardwareMap.crservo.get("foundation");
+        //foundation = hardwareMap.crservo.get("foundation");
 
 
         FL.setDirection(DcMotorSimple.Direction.REVERSE); //set left side motors to opposite so that the robot moves
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        //BL.setDirection(DcMotorSimple.Direction.REVERSE);
         //BR.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -74,26 +75,19 @@ public class TeleOp extends LinearOpMode {
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                /*double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-                double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-                double rightX = gamepad1.right_stick_x;
-                final double v1 = r * Math.cos(robotAngle) + rightX;
-                final double v2 = r * Math.sin(robotAngle) - rightX;
-                final double v3 = r * Math.sin(robotAngle) + rightX;
-                final double v4 = r * Math.cos(robotAngle) - rightX;
-
-                FL.setPower(v1);
-                FR.setPower(v2);
-                BL.setPower(v3);
-                BR.setPower(v4);*/
 
                 double x = gamepad1.left_stick_x;
                 double y = gamepad1.left_stick_y;
                 double r = gamepad1.right_stick_x;
 
-                double fl = + x + y + r;
+                /*double fl = + x + y + r;
                 double fr = - x + y - r;
                 double bl = - x - y + r;
+                double br = + x - y - r;*/
+
+                double fl = - x + y - r;
+                double fr = - x - y - r;
+                double bl = + x + y - r;
                 double br = + x - y - r;
 
                 FL.setPower(fl);
@@ -119,7 +113,7 @@ public class TeleOp extends LinearOpMode {
                 }
 
                 if (gamepad2.b) {
-                    test.setPosition(0.5);
+                    test.setPosition(0.3);
                 }
 
                 if(gamepad2.dpad_down){
