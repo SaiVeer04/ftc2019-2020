@@ -85,10 +85,10 @@ public class TeleOp extends LinearOpMode {
                 double bl = - x - y + r;
                 double br = + x - y - r;*/
 
-                double fl = - x + y - r;
-                double fr = - x - y - r;
-                double bl = + x + y - r;
-                double br = + x - y - r;
+                double fl = + x - y + r;
+                double fr = + x + y + r;
+                double bl = - x - y + r;
+                double br = - x + y + r;
 
                 FL.setPower(fl);
                 FR.setPower(fr);

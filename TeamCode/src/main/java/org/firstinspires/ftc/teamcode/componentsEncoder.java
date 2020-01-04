@@ -8,9 +8,11 @@
         import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.DigitalChannel;
         import com.qualcomm.robotcore.hardware.DistanceSensor;
         import com.qualcomm.robotcore.hardware.HardwareMap;
         import com.qualcomm.robotcore.hardware.Servo;
+        import com.qualcomm.robotcore.hardware.TouchSensor;
 
         import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -36,8 +38,6 @@ public class componentsEncoder{
 
     public ColorSensor colorSensor;
 
-    public DistanceSensor distanceSensor;
-
     public ColorSensor bottomSensor;
 
     public Servo leftServo;
@@ -52,6 +52,8 @@ public class componentsEncoder{
     //rotate motor
     public DcMotor rotate;
     // Color sensor
+
+    public DigitalChannel touchSensor;
 
 
 
@@ -84,12 +86,11 @@ public class componentsEncoder{
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        colorSensor = hwMap.get(ColorSensor.class, "sensorColor");
+        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
 
-        bottomSensor = hwMap.get(ColorSensor.class, "sensorColor");
+        bottomSensor = hwMap.get(ColorSensor.class, "bottomSensor");
 
         // get a reference to the distance sensor that shares the same name.
-        distanceSensor = hwMap.get(DistanceSensor.class, "stone");
 
         leftServo = hwMap.get(Servo.class, "leftServo");
 
@@ -100,6 +101,12 @@ public class componentsEncoder{
 
         string = hwMap.dcMotor.get("string");
         rotate = hwMap.dcMotor.get("rotate");
+
+        touchSensor = hwMap.get(DigitalChannel.class,"touchSensor");
+
+        touchSensor.setMode(DigitalChannel.Mode.INPUT);
+
+
 
 
 
@@ -135,9 +142,9 @@ public class componentsEncoder{
 
         reset_motor();
         fl.setTargetPosition(final_front);
-        bl.setTargetPosition(final_front);
+        bl.setTargetPosition(-final_front);
         fr.setTargetPosition(final_front);
-        br.setTargetPosition(final_front);
+        br.setTargetPosition(-final_front);
         powerBusy(power);
 
     }
@@ -147,9 +154,9 @@ public class componentsEncoder{
 
         reset_motor();
         fl.setTargetPosition(-final_back);
-        bl.setTargetPosition(-final_back);
+        bl.setTargetPosition(final_back);
         fr.setTargetPosition(-final_back);
-        br.setTargetPosition(-final_back);
+        br.setTargetPosition(final_back);
         powerBusy(power);
 
     }

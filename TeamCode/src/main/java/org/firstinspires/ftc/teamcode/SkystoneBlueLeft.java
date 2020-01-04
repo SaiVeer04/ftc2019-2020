@@ -12,11 +12,16 @@ public class SkystoneBlueLeft extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        while (robot.distanceSensor.getDistance(DistanceUnit.CM) > 2) {
-            robot.fl.setPower(1); //move forward to the stones
-            robot.fr.setPower(-1);
-            robot.bl.setPower(1);
-            robot.br.setPower(-1);
+        while (robot.touchSensor.getState() == true) {
+            robot.forward(3,0.3);
+
+            if (robot.touchSensor.getState() == false) {
+                robot.fl.setPower(0);
+                robot.fr.setPower(0);
+                robot.bl.setPower(0);
+                robot.br.setPower(0);
+                break;
+            }
         }
 
 
@@ -54,11 +59,16 @@ public class SkystoneBlueLeft extends LinearOpMode {
         robot.turn(90, "l", 0.5); //back to original position
         robot.strafeleft(30, 0.7); //strafe all the way to the other side
 
-        while (robot.distanceSensor.getDistance(DistanceUnit.CM) > 2) {
-            robot.fl.setPower(1); //move forward to the stones
-            robot.fr.setPower(-1);
-            robot.bl.setPower(1);
-            robot.br.setPower(-1);
+        while (robot.touchSensor.getState() == true) {
+            robot.forward(3,0.3);
+
+            if (robot.touchSensor.getState() == false) {
+                robot.fl.setPower(0);
+                robot.fr.setPower(0);
+                robot.bl.setPower(0);
+                robot.br.setPower(0);
+                break;
+            }
         }
 
         for (int i = 0; i <3; i++) {
