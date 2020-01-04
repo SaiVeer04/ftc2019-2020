@@ -35,9 +35,10 @@ public class FoundationRed extends LinearOpMode {
             robot.foundation.setPower(0.5);
             Thread.sleep(2000);
             sleep(500);
-            strafeRight(1,1500,500);
+            strafeRight(1,1300,500);
             moveForward(.4,700,500);
             moveBackWard(.4,1350,500);
+            //moveForward(.3, 400, 200); //only match 2, for NanoGurus alliance
             strafeLeft(1,1050,500);
             while(true){
                 if(robot.sensorColor.red() < 40){

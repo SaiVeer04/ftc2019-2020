@@ -1,10 +1,16 @@
 
         package org.firstinspires.ftc.teamcode;
 
+        import android.graphics.Color;
+
         import com.qualcomm.hardware.bosch.BNO055IMU;
+        import com.qualcomm.robotcore.hardware.CRServo;
+        import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.DistanceSensor;
         import com.qualcomm.robotcore.hardware.HardwareMap;
+        import com.qualcomm.robotcore.hardware.Servo;
 
         import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -15,7 +21,7 @@ public class componentsEncoder{
     static final double wheel_diameter = 4.0;
     static final double gear_ratio = 1.0;
     //for encoders
-    static final double ticks = 1120;
+    static final double ticks = 537.6;
     static final double ticks_per_inch = (ticks * gear_ratio)/(wheel_diameter * Math.PI);
 
     //for motor variables
@@ -27,6 +33,25 @@ public class componentsEncoder{
     public DcMotor fl;
     //back left
     public DcMotor bl;
+
+    public ColorSensor colorSensor;
+
+    public DistanceSensor distanceSensor;
+
+    public ColorSensor bottomSensor;
+
+    public Servo leftServo;
+
+    public Servo rightServo;
+
+    public DcMotor intakeLeft;
+    //intakeright
+    public DcMotor intakeRight;
+
+    public DcMotor string;
+    //rotate motor
+    public DcMotor rotate;
+    // Color sensor
 
 
 
@@ -58,6 +83,23 @@ public class componentsEncoder{
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        colorSensor = hwMap.get(ColorSensor.class, "sensorColor");
+
+        bottomSensor = hwMap.get(ColorSensor.class, "sensorColor");
+
+        // get a reference to the distance sensor that shares the same name.
+        distanceSensor = hwMap.get(DistanceSensor.class, "stone");
+
+        leftServo = hwMap.get(Servo.class, "leftServo");
+
+        rightServo = hwMap.get(Servo.class, "leftServo");
+
+        intakeLeft = hwMap.dcMotor.get("intakeLeft");
+        intakeRight = hwMap.dcMotor.get("intakeRight");
+
+        string = hwMap.dcMotor.get("string");
+        rotate = hwMap.dcMotor.get("rotate");
 
 
 

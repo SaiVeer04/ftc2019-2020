@@ -46,6 +46,8 @@ public class componentsHardCode {
     //
     public CRServo foundation;
 
+    public DistanceSensor sensorDistance;
+
 
     HardwareMap hwMap = null;
 
@@ -58,6 +60,7 @@ public class componentsHardCode {
         bl = hwMap.dcMotor.get("BL");
         foundation = hwMap.crservo.get("foundation");
         touch = hwMap.get(DigitalChannel.class,"sensor_digital");
+        sensorDistance = hwMap.get(DistanceSensor.class, "stone");
 
         //extra motors
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
