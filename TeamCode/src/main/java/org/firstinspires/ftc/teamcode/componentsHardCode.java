@@ -26,27 +26,28 @@ public class componentsHardCode {
     public DcMotor fl;
     //back left
     public DcMotor bl;
-    //intakeLeft
+
+    public ColorSensor colorSensor;
+
+    public ColorSensor bottomSensor;
+
+    public CRServo leftServo;
+
+    public CRServo rightServo;
+
     public DcMotor intakeLeft;
     //intakeright
     public DcMotor intakeRight;
-    //Servo paddle
-    public Servo paddle;
-    //Servo Drag
-    public CRServo drag;
-    //spool motor
+
     public DcMotor string;
     //rotate motor
     public DcMotor rotate;
     // Color sensor
-    public ColorSensor sensorColor;
-    public ColorSensor stoneSensor;
-    public DistanceSensor dist;
-    public DigitalChannel touch;
-    //
-    public CRServo foundation;
 
-    public DistanceSensor sensorDistance;
+    public DigitalChannel touchSensor;
+
+    public DistanceSensor sensorRange;
+    public DistanceSensor sensorRange1;
 
 
     HardwareMap hwMap = null;
@@ -58,24 +59,35 @@ public class componentsHardCode {
         fl = hwMap.dcMotor.get("FL");
         br = hwMap.dcMotor.get("BR");
         bl = hwMap.dcMotor.get("BL");
-        foundation = hwMap.crservo.get("foundation");
-        touch = hwMap.get(DigitalChannel.class,"sensor_digital");
-        sensorDistance = hwMap.get(DistanceSensor.class, "stone");
+       // touch = hwMap.get(DigitalChannel.class,"sensor_digital");
+        //sensorDistance = hwMap.get(DistanceSensor.class, "stone");
 
         //extra motors
+        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
+
+        bottomSensor = hwMap.get(ColorSensor.class, "bottomSensor");
+
+        // get a reference to the distance sensor that shares the same name.
+
+        leftServo = hwMap.get(CRServo.class, "leftServo");
+
+        rightServo = hwMap.get(CRServo.class, "rightServo");
+
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
         intakeRight = hwMap.dcMotor.get("intakeRight");
+
         string = hwMap.dcMotor.get("string");
         rotate = hwMap.dcMotor.get("rotate");
 
-        //Servo
-        drag = hwMap.crservo.get("drag");
-        //ETC
-        sensorColor = hwMap.colorSensor.get("sensorColor");
-        stoneSensor = hwMap.colorSensor.get("stone");
-        dist = hwMap.get(DistanceSensor.class,"stone");
+        touchSensor = hwMap.get(DigitalChannel.class,"touchSensor");
 
-        touch.setMode(DigitalChannel.Mode.INPUT);
+        touchSensor.setMode(DigitalChannel.Mode.INPUT);
+
+        sensorRange = hwMap.get(DistanceSensor.class, "sensor_range");
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
+        sensorRange1 = hwMap.get(DistanceSensor.class, "sensor_range1");
+        Rev2mDistanceSensor sensorTimeOfFlight1 = (Rev2mDistanceSensor)sensorRange1;
 
 
         //

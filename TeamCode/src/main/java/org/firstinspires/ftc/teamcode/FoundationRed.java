@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,7 +24,7 @@ public class FoundationRed extends LinearOpMode {
             //move to  align
             moveBackWard(.3,420,500);
             //latch on
-            robot.foundation.setPower(-0.5);
+            //robot.foundation.setPower(-0.5);
             Thread.sleep(2000);
             sleep(500);
 
@@ -32,7 +32,7 @@ public class FoundationRed extends LinearOpMode {
             moveForward(.4,4005,500);
             //
             sleep(1000);
-            robot.foundation.setPower(0.5);
+            //robot.foundation.setPower(0.5);
             Thread.sleep(2000);
             sleep(500);
             strafeRight(1,1300,500);
@@ -109,4 +109,4 @@ public class FoundationRed extends LinearOpMode {
         robot.br.setPower(0);
     }
 }
-
+*/

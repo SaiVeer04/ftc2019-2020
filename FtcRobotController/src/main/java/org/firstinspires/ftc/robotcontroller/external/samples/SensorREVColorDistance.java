@@ -75,7 +75,7 @@ public class SensorREVColorDistance extends LinearOpMode {
      * chip to your exact situation.
      *
      * Although you configure a single REV Robotics Color-Distance sensor in your configuration file,
-     * you can treat the sensor as two separate sensors that share the same name in your op mode.
+     * you can treat the sensor as two separate sensdors that share the same name in your op mode.
      *
      * In this example, we represent the detected color by a hue, saturation, and value color
      * model (see https://en.wikipedia.org/wiki/HSL_and_HSV).  We change the background
