@@ -28,15 +28,17 @@ public class SRSTest extends LinearOpMode {
 
             strafeLeft(0.3, 1000, 200); //strafe to the middle
 
-            while (robot.sensorRange1.getDistance(DistanceUnit.CM) > 2) { //move up
+            /*while (robot.sensorRange1.getDistance(DistanceUnit.CM) > 1) { //move up
                 moveBackward(0.2, 100, 0);
-                if (robot.sensorRange1.getDistance(DistanceUnit.CM) <= 2) {
+                if (robot.sensorRange1.getDistance(DistanceUnit.CM) <= 1) {
                     stopRobot();
                     break;
                 }
-            }
+            }*/
 
-            //distanceCheck();
+            distanceCheck();
+
+            moveBackward(.4,200,200);
 
             /*while (robot.sensorRange1.getDistance(DistanceUnit.CM) > 2) { //move up
                 moveBackward(0.2, 100, 0);
@@ -63,11 +65,14 @@ public class SRSTest extends LinearOpMode {
 
             moveForward(0.2, 3500, 200); //move backward
 
+
             robot.leftServo.setPower(-0.5); //clamp on
             robot.rightServo.setPower(0.5);
             sleep(750);
             robot.leftServo.setPower(0);
             robot.rightServo.setPower(0);
+
+            //strafeLeft(.5,2000,2000);
 
 
             /*robot.fl.setPower(0.4); //turn to align
@@ -80,7 +85,7 @@ public class SRSTest extends LinearOpMode {
             robot.fr.setPower(0);
             robot.br.setPower(0);*/
 
-            strafeLeft(0.2, 1200, 200);
+
 
 
             robot.leftServo.setPower(0.5); //let go
@@ -88,6 +93,8 @@ public class SRSTest extends LinearOpMode {
             sleep(2000);
             robot.leftServo.setPower(0);
             robot.rightServo.setPower(0);
+
+            strafeLeft(0.2, 1200, 200);
 
             moveForward(0.2, 200, 200);
 
@@ -169,7 +176,7 @@ public class SRSTest extends LinearOpMode {
                 robot.bl.setPower(-0.1);
                 robot.fr.setPower(-0.1);
                 robot.br.setPower(0.1);
-                Thread.sleep(50);
+                Thread.sleep(100);
                 robot.fl.setPower(0);
                 robot.bl.setPower(0);
                 robot.fr.setPower(0);
@@ -181,7 +188,7 @@ public class SRSTest extends LinearOpMode {
                 robot.bl.setPower(0.1);
                 robot.fr.setPower(0.1);
                 robot.br.setPower(-0.1);
-                Thread.sleep(50);
+                Thread.sleep(100);
                 robot.fl.setPower(0);
                 robot.bl.setPower(0);
                 robot.fr.setPower(0);

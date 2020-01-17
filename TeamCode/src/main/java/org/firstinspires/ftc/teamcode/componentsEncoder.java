@@ -188,21 +188,21 @@ public class componentsEncoder{
     public void turn(double degrees,String l_or_r,double power){
         if(l_or_r.equals("l")){
             int leftvalue = (int)((degrees/360)* 1120);
-
-            fl.setTargetPosition(leftvalue);
+            reset_motor();
+            fl.setTargetPosition(-leftvalue);
             bl.setTargetPosition(leftvalue);
-            fr.setTargetPosition(-leftvalue);
+            fr.setTargetPosition(leftvalue);
             br.setTargetPosition(-leftvalue);
-
+            powerBusy(power);
 
         }else if(l_or_r.equals("r")){
             int leftvalue = (int)((degrees/360)* 1120);
-
+            reset_motor();
             fl.setTargetPosition(-leftvalue);
             bl.setTargetPosition(-leftvalue);
             fr.setTargetPosition(leftvalue);
             br.setTargetPosition(leftvalue);
-
+            powerBusy(power);
 
         }
 
