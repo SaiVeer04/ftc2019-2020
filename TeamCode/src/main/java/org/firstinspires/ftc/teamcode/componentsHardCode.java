@@ -31,9 +31,9 @@ public class componentsHardCode {
 
     public ColorSensor bottomSensor;
 
-    public CRServo leftServo;
+    public Servo leftServo;
 
-    public CRServo rightServo;
+    public Servo rightServo;
 
     public DcMotor intakeLeft;
     //intakeright
@@ -69,9 +69,9 @@ public class componentsHardCode {
 
         // get a reference to the distance sensor that shares the same name.
 
-        leftServo = hwMap.get(CRServo.class, "leftServo");
+        leftServo = hwMap.get(Servo.class, "leftServo");
 
-        rightServo = hwMap.get(CRServo.class, "rightServo");
+        rightServo = hwMap.get(Servo.class, "rightServo");
 
         intakeLeft = hwMap.dcMotor.get("intakeLeft");
         intakeRight = hwMap.dcMotor.get("intakeRight");

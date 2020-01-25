@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "FoundationRedLeft")
-public class SRSTest extends LinearOpMode {
+@Autonomous(name = "FoundationRedRight")
+public class SRSTest1 extends LinearOpMode {
     componentsHardCode robot = new componentsHardCode();
 
     public void runOpMode() throws InterruptedException {
@@ -28,16 +27,6 @@ public class SRSTest extends LinearOpMode {
 
             strafeLeft(0.3, 1000, 200); //strafe to the middle
 
-            robot.fl.setPower(0.3);
-            robot.bl.setPower(-0.3);
-            robot.fr.setPower(-0.3);
-            robot.br.setPower(0.3);
-            sleep(50);
-            robot.fl.setPower(0);
-            robot.bl.setPower(0);
-            robot.fr.setPower(0);
-            robot.br.setPower(0);
-
             /*while (robot.sensorRange1.getDistance(DistanceUnit.CM) > 1) { //move up
                 moveBackward(0.2, 100, 0);
                 if (robot.sensorRange1.getDistance(DistanceUnit.CM) <= 1) {
@@ -48,7 +37,7 @@ public class SRSTest extends LinearOpMode {
 
             //distanceCheck();
 
-            moveBackward(.4,300,200); //move closer to the robot because strafing moves ht robot backward
+            moveBackward(.4,200,200); //move closer to the robot because strafing moves ht robot backward
 
             /*while (robot.sensorRange1.getDistance(DistanceUnit.CM) > 2) { //move up
                 moveBackward(0.2, 100, 0);
@@ -70,17 +59,13 @@ public class SRSTest extends LinearOpMode {
             robot.rightServo.setPosition(0);
             sleep(300);
 
-            moveBackward(0.5, 100, 500); //move up a little to avoid friction
-
-
             strafeRight(0.5, 2500, 200); //move parallel
 
-            moveBackward(0.5, 500, 500); //move to the side
+            moveBackward(0.5, 500, 1000); //move to the side
 
-            strafeLeft(0.5, 2500, 500); //push the foundation in
+            strafeLeft(0.5, 2000, 500); //push the foundation in
 
-            moveForward(0.3, 400, 200); //move backward a bit
-
+            moveBackward(0.3, 600, 200); //move backward a bit
 
 
 
@@ -88,9 +73,16 @@ public class SRSTest extends LinearOpMode {
 
 
 
+            while (robot.bottomSensor.red() < 350) {
+                strafeRight(0.6, 350, 10);
 
-                //strafeRight(0.6, 750, 10);
+                if (robot.bottomSensor.red() > 100) {
+                    stopRobot();
+                    break;
+                }
 
+
+            }
         }
     }
 

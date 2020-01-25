@@ -113,7 +113,7 @@ public class TeleOp extends LinearOpMode {
                 }
 
                 if (gamepad2.b) {
-                    test.setPosition(0.3);
+                    test.setPosition(1);
                 }
 
                 if(gamepad2.dpad_down){
@@ -129,22 +129,17 @@ public class TeleOp extends LinearOpMode {
 
                 //motor rotation code
                 if(gamepad2.dpad_left){
-                    rotate.setPower(0.05);
+                    rotate.setPower(0.2);
                 }
 
                 else if(gamepad2.dpad_right){
-                    rotate.setPower(-0.05);
+                    rotate.setPower(-0.2);
                 }
                 else if (gamepad2.dpad_left == false || gamepad2.dpad_right == false){
                     rotate.setPower(0);
                 }
 
-                if (gamepad2.left_bumper) {
-                    foundation.setPower(0.5);
-                }
 
-                if (gamepad2.right_bumper) {
-                    foundation.setPower(-0.5);
                 }
 
                 if (gamepad2.y) {
@@ -156,7 +151,6 @@ public class TeleOp extends LinearOpMode {
         }
 
 
-    }
 
     public void moveForward(double power,int movement,int sleep) throws InterruptedException{
         rotate.setPower(power);
