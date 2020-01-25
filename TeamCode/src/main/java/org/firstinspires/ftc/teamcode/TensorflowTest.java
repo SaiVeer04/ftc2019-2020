@@ -67,7 +67,7 @@ public class TensorflowTest extends LinearOpMode {
     static final double wheel_diameter = 4.0;
     static final double gear_ratio = 1.0;
     //for encoders
-    static final double ticks = 1120;
+    static final double ticks = 537.6;
     static final double ticks_per_inch = (ticks * gear_ratio)/(wheel_diameter * Math.PI);
 
     public DcMotor bl;
@@ -146,7 +146,7 @@ public class TensorflowTest extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        forward(20,.3);
+        backwards(20,.3);
         if (opModeIsActive()) {
             int angle = 0;
             while (opModeIsActive()) {
@@ -177,10 +177,16 @@ public class TensorflowTest extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
                         break;
                       }
-                        turn(angle,"l",.5);
+
+
                       telemetry.update();
                     }
+
+                        //turn(angle, "l", .5);
+
+
                 }
+
             }
         }
 
