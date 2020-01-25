@@ -142,9 +142,9 @@ public class componentsEncoder{
 
         reset_motor();
         fl.setTargetPosition(final_front);
-        bl.setTargetPosition(-final_front);
+        bl.setTargetPosition(final_front);
         fr.setTargetPosition(final_front);
-        br.setTargetPosition(-final_front);
+        br.setTargetPosition(final_front);
         powerBusy(power);
 
     }
