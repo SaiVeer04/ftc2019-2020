@@ -5,32 +5,22 @@ import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-@Autonomous(name = "FullRed")
-public class AutoEncoderTest extends LinearOpMode{
+@Autonomous(name = "FullBlue")
+public class FullBlue extends LinearOpMode{
 
     float hsvValues[] = {0F, 0F, 0F};
 
@@ -139,7 +129,7 @@ public class AutoEncoderTest extends LinearOpMode{
                 sleep(500);
 
                 if (hsvValues[0] > 80) { //check the hue value
-                    straferight(5, .5);
+                    //strafeleft(8, .5);
 
                     sleep(500);
 
@@ -204,17 +194,17 @@ public class AutoEncoderTest extends LinearOpMode{
                     br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                    forward(29, 0.5); //moves the robot back
+                    forward(21, 0.5); //moves the robot back
                     sleep(200);
 
                     //to turn right
-                    int final_back = (int) Math.round(18 * ticks_per_inch);
+                    int final_back = (int) Math.round(16 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(-final_back);
-                    bl.setTargetPosition(-final_back);
-                    fr.setTargetPosition(+final_back);
-                    br.setTargetPosition(+final_back);
+                    fl.setTargetPosition(+final_back);
+                    bl.setTargetPosition(+final_back);
+                    fr.setTargetPosition(-final_back);
+                    br.setTargetPosition(-final_back);
                     powerBusy(0.5);
 
                     sleep(200);
@@ -249,20 +239,20 @@ public class AutoEncoderTest extends LinearOpMode{
                     backwards(70 + movement, 0.5); //move to the foundation side (68 was original value)
 
                     //to turn left
-                    int final_back1 = (int) Math.round(17 * ticks_per_inch);
+                    int final_back1 = (int) Math.round(18 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(+final_back1);
-                    bl.setTargetPosition(+final_back1);
-                    fr.setTargetPosition(-final_back1);
-                    br.setTargetPosition(-final_back1);
+                    fl.setTargetPosition(-final_back1);
+                    bl.setTargetPosition(-final_back1);
+                    fr.setTargetPosition(+final_back1);
+                    br.setTargetPosition(+final_back1);
                     powerBusy(0.5);
 
                     sleep(500);
 
 
 
-                    backwards(10, 0.3); //move forward to the foundation
+                    backwards(15, 0.3); //move forward to the foundation
 
                     /*while (true) {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -344,11 +334,12 @@ public class AutoEncoderTest extends LinearOpMode{
                 } else {
                     movement += 6;
 
-                    forward(2,.3);
+                    //forward(2,.3);
 
 
 
-                    straferight(8, .8);
+                    strafeleft(8, .8); //move to the next block
+                    backwards(2, 0.5);
 
                     while (true) {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
