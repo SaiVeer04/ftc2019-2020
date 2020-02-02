@@ -194,7 +194,7 @@ public class FullBlue extends LinearOpMode{
                     br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                    forward(21, 0.5); //moves the robot back
+                    forward(24, 0.7); //moves the robot back
                     sleep(200);
 
                     //to turn right
@@ -211,13 +211,27 @@ public class FullBlue extends LinearOpMode{
 
 
 
-                   // boolean check = true;
-                   /* while (check == true) {
+                   while (opModeIsActive() && !isStopRequested()) {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                         telemetry.addData("Heading:", angles.firstAngle);
-                        if (angles.firstAngle < 85) {
+                        sleep(200);
+                        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+                        if (angles.firstAngle < 88) {
+                            //to turn left
+                            int final_back1 = (int) Math.round(1 * ticks_per_inch);
+
+                            reset_motor();
+                            fl.setTargetPosition(+final_back1);
+                            bl.setTargetPosition(+final_back1);
+                            fr.setTargetPosition(-final_back1);
+                            br.setTargetPosition(-final_back1);
+                            powerBusy(0.5);
+
+                        } else if (angles.firstAngle > 92){
                             //to turn right
-                            int final_back1 = (int) Math.round(3 * ticks_per_inch);
+                            int final_back1 = (int) Math.round(1 * ticks_per_inch);
 
                             reset_motor();
                             fl.setTargetPosition(-final_back1);
@@ -225,12 +239,12 @@ public class FullBlue extends LinearOpMode{
                             fr.setTargetPosition(+final_back1);
                             br.setTargetPosition(+final_back1);
                             powerBusy(0.5);
-
-                        } else if(angles.firstAngle > 85 ){
-                            check = false;
+                        }
+                        else {
+                            break;
                         }
                         telemetry.update();
-                    }*/
+                    }
 
 
 
@@ -251,21 +265,43 @@ public class FullBlue extends LinearOpMode{
                     sleep(500);
 
 
-
-                    backwards(15, 0.3); //move forward to the foundation
-
-                    /*while (true) {
+                    while (opModeIsActive() && !isStopRequested()) {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                         telemetry.addData("Heading:", angles.firstAngle);
-                        if (angles.firstAngle > 2) {
-                            turn(5, "l", .3);
-                        } else if (angles.firstAngle < -2) {
-                            turn(5, "r", .3);
-                        } else {
+                        sleep(200);
+                        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+                        if (angles.firstAngle < -5) {
+                            //to turn left
+                            int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                            reset_motor();
+                            fl.setTargetPosition(+final_back2);
+                            bl.setTargetPosition(+final_back2);
+                            fr.setTargetPosition(-final_back2);
+                            br.setTargetPosition(-final_back2);
+                            powerBusy(0.5);
+
+                        } else if (angles.firstAngle > 4){
+                            //to turn right
+                            int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                            reset_motor();
+                            fl.setTargetPosition(-final_back2);
+                            bl.setTargetPosition(-final_back2);
+                            fr.setTargetPosition(+final_back2);
+                            br.setTargetPosition(+final_back2);
+                            powerBusy(0.5);
+                        }
+                        else {
                             break;
                         }
                         telemetry.update();
-                    }*/
+                    }
+
+                    backwards(15, 0.3); //move forward to the foundation
+
 
 
                     leftServo.setPosition(-0.5); //clamp on
@@ -273,17 +309,17 @@ public class FullBlue extends LinearOpMode{
                     sleep(2500);
 
 
-                    forward(33, 0.5); //move backward
+                    forward(30, 0.7); //move backward
                     sleep(200);
 
-                    //turn right
+                    //turn left to move foundation into depot
                     int final_back2 = (int) Math.round(52 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(-final_back2);
-                    bl.setTargetPosition(-final_back2);
-                    fr.setTargetPosition(+final_back2);
-                    br.setTargetPosition(+final_back2);
+                    fl.setTargetPosition(+final_back2);
+                    bl.setTargetPosition(+final_back2);
+                    fr.setTargetPosition(-final_back2);
+                    br.setTargetPosition(-final_back2);
                     powerBusy(0.5);
 
 
@@ -298,7 +334,7 @@ public class FullBlue extends LinearOpMode{
                     forward(2, 0.4); //move a little backwards to relieve friction before strafing
                     sleep(200);
 
-                    straferight(15, 0.5); //move to the side of the foundation
+                    strafeleft(12, 0.5); //move to the side of the foundation
                     sleep(500);
 
                     backwards(7, 0.5);
@@ -332,23 +368,45 @@ public class FullBlue extends LinearOpMode{
                     break;
 
                 } else {
-                    movement += 6;
+                    movement += 7;
 
                     //forward(2,.3);
 
 
 
-                    strafeleft(8, .8); //move to the next block
+                    strafeleft(10, .8); //move to the next block
                     backwards(2, 0.5);
 
-                    while (true) {
+                    while (opModeIsActive() && !isStopRequested()) {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                         telemetry.addData("Heading:", angles.firstAngle);
-                        if (angles.firstAngle > 8) {
-                            turn(5, "l", .3);
-                        } else if (angles.firstAngle < -2) {
-                            turn(5, "r", .3);
-                        } else {
+                        sleep(200);
+                        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+                        if (angles.firstAngle < -2) {
+                            //to turn left
+                            int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                            reset_motor();
+                            fl.setTargetPosition(+final_back2);
+                            bl.setTargetPosition(+final_back2);
+                            fr.setTargetPosition(-final_back2);
+                            br.setTargetPosition(-final_back2);
+                            powerBusy(0.5);
+
+                        } else if (angles.firstAngle > 2){
+                            //to turn right
+                            int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                            reset_motor();
+                            fl.setTargetPosition(-final_back2);
+                            bl.setTargetPosition(-final_back2);
+                            fr.setTargetPosition(+final_back2);
+                            br.setTargetPosition(+final_back2);
+                            powerBusy(0.5);
+                        }
+                        else {
                             break;
                         }
                         telemetry.update();
