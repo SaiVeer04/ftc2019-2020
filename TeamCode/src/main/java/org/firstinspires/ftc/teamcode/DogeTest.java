@@ -14,6 +14,9 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -27,7 +30,7 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
-@Autonomous(name = "Skystone Detector OpMode", group="DogeCV")
+@Autonomous(name = "DogeTest", group="DogeCV")
 
 public class DogeTest extends LinearOpMode {
     private OpenCvCamera phoneCam;
@@ -67,7 +70,7 @@ public class DogeTest extends LinearOpMode {
     Acceleration gravity;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -153,15 +156,14 @@ public class DogeTest extends LinearOpMode {
          * For a rear facing camera or a webcam, rotation is defined assuming the camera is facing
          * away from the user.
          */
-        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
 
         /*
          * Wait for the user to press start on the Driver Station
          */
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        if (opModeIsActive()) {
             /*
              * Send some stats to the telemetry
              */
@@ -174,19 +176,182 @@ public class DogeTest extends LinearOpMode {
             telemetry.addData("Overhead time ms", phoneCam.getOverheadTimeMs());
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
             telemetry.update();
+            boolean bkah = true;
+            while (bkah) {
+                telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
+                if (skyStoneDetector.getScreenPosition().x > 200) {
+                    backwards(10, .3);
+                    int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
 
-            if(skyStoneDetector.getScreenPosition().x > 100){
-                int final_back1 = (int) Math.round(2 * ticks_per_inch);
+                    reset_motor();
+                    fl.setTargetPosition(-final_back1);
+                    bl.setTargetPosition(-final_back1);
+                    fr.setTargetPosition(+final_back1);
+                    br.setTargetPosition(+final_back1);
+                    powerBusy(0.5);
 
-                reset_motor();
-                fl.setTargetPosition(-final_back1);
-                bl.setTargetPosition(-final_back1);
-                fr.setTargetPosition(+final_back1);
-                br.setTargetPosition(+final_back1);
-                powerBusy(0.5);
+                    sleep(500);
+                    bkah = false;
+                }
+                else if(skyStoneDetector.getScreenPosition().x < 100){
+                    backwards(10, .3);
+                    int final_back1 = (int) Math.round(3 * ticks_per_inch);
 
-                sleep(500);
+                    reset_motor();
+                    fl.setTargetPosition(+final_back1);
+                    bl.setTargetPosition(+final_back1);
+                    fr.setTargetPosition(-final_back1);
+                    br.setTargetPosition(-final_back1);
+                    powerBusy(0.5);
+
+                    sleep(500);
+                    bkah = false;
+                }
+                else{
+                    backwards(10, .3);
+                    sleep(500);
+                    bkah = false;
+                }
+                telemetry.update();
             }
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            fl.setPower(-.5);
+            fr.setPower(-.5);
+            bl.setPower(-.5);
+            br.setPower(-.5);
+
+            intakeLeft.setPower(-0.7); //make the intake wheels move
+            intakeRight.setPower(0.7);
+
+            Thread.sleep(1300);
+            fl.setPower(0);
+            bl.setPower(0);
+            fr.setPower(0);
+            br.setPower(0);
+
+            intakeLeft.setPower(0); //stop the intake wheels
+            intakeRight.setPower(0);
+
+            intakeLeft.setPower(-0.7); //make the intake wheels move
+            intakeRight.setPower(0.7);
+
+            Thread.sleep(500);
+
+            intakeLeft.setPower(0); //stop the intake wheels
+            intakeRight.setPower(0);
+
+            sleep(100);
+
+            fl.setPower(.5);
+            fr.setPower(.5);
+            bl.setPower(.5);
+            br.setPower(.5);
+
+            Thread.sleep(1300);
+
+            fl.setPower(0);
+            bl.setPower(0);
+            fr.setPower(0);
+            br.setPower(0);
+
+
+            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            while (opModeIsActive() && !isStopRequested()) {
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                telemetry.addData("Heading:", angles.firstAngle);
+                sleep(200);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+                if (angles.firstAngle < -2) {
+                    //to turn left
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(+final_back2);
+                    bl.setTargetPosition(+final_back2);
+                    fr.setTargetPosition(-final_back2);
+                    br.setTargetPosition(-final_back2);
+                    powerBusy(0.5);
+
+                } else if (angles.firstAngle > 2){
+                    //to turn right
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(-final_back2);
+                    bl.setTargetPosition(-final_back2);
+                    fr.setTargetPosition(+final_back2);
+                    br.setTargetPosition(+final_back2);
+                    powerBusy(0.5);
+                }
+                else {
+                    break;
+                }
+                telemetry.update();
+            }
+
+            backwards(8,.5);
+
+            //to turn right
+            int final_back = (int) Math.round(16 * ticks_per_inch);
+
+            reset_motor();
+            fl.setTargetPosition(+final_back);
+            bl.setTargetPosition(+final_back);
+            fr.setTargetPosition(-final_back);
+            br.setTargetPosition(-final_back);
+            powerBusy(0.5);
+
+            sleep(200);
+
+
+
+            while (opModeIsActive() && !isStopRequested()) {
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                telemetry.addData("Heading:", angles.firstAngle);
+                sleep(200);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+                if (angles.firstAngle < 88) {
+                    //to turn left
+                    int final_back1 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(+final_back1);
+                    bl.setTargetPosition(+final_back1);
+                    fr.setTargetPosition(-final_back1);
+                    br.setTargetPosition(-final_back1);
+                    powerBusy(0.5);
+
+                } else if (angles.firstAngle > 92){
+                    //to turn right
+                    int final_back1 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(+final_back1);
+                    bl.setTargetPosition(+final_back1);
+                    fr.setTargetPosition(-final_back1);
+                    br.setTargetPosition(-final_back1);
+                    powerBusy(0.5);
+                }
+                else {
+                    break;
+                }
+                telemetry.update();
+            }
+
+
+
 
         }
     }

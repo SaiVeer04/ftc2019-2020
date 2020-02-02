@@ -62,7 +62,7 @@ public class Skystone_Detection_OpMode extends LinearOpMode {
          * For a rear facing camera or a webcam, rotation is defined assuming the camera is facing
          * away from the user.
          */
-        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
 
         /*
          * Wait for the user to press start on the Driver Station
