@@ -234,6 +234,7 @@ public class FullBlue extends LinearOpMode{
                             int final_back1 = (int) Math.round(1 * ticks_per_inch);
 
                             reset_motor();
+
                             fl.setTargetPosition(-final_back1);
                             bl.setTargetPosition(-final_back1);
                             fr.setTargetPosition(+final_back1);

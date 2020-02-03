@@ -177,6 +177,7 @@ public class DogeTest extends LinearOpMode {
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
             telemetry.update();
             boolean bkah = true;
+            //turn towards the skystone
             while (bkah) {
                 telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
                 if (skyStoneDetector.getScreenPosition().x > 200) {
@@ -214,6 +215,7 @@ public class DogeTest extends LinearOpMode {
                 }
                 telemetry.update();
             }
+            //move forward and intake
             fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -250,7 +252,7 @@ public class DogeTest extends LinearOpMode {
             fr.setPower(.5);
             bl.setPower(.5);
             br.setPower(.5);
-
+            //move back to orginal position
             Thread.sleep(1300);
 
             fl.setPower(0);
@@ -263,7 +265,7 @@ public class DogeTest extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+            //get back to 0 degrees
             while (opModeIsActive() && !isStopRequested()) {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 telemetry.addData("Heading:", angles.firstAngle);
@@ -298,21 +300,20 @@ public class DogeTest extends LinearOpMode {
                 }
                 telemetry.update();
             }
-
+            //move forward so you don't hit the robot
             backwards(8,.5);
 
-            //to turn right
+            //to turn right to move to the foundation
             int final_back = (int) Math.round(16 * ticks_per_inch);
 
             reset_motor();
-            fl.setTargetPosition(+final_back);
-            bl.setTargetPosition(+final_back);
-            fr.setTargetPosition(-final_back);
-            br.setTargetPosition(-final_back);
+            fl.setTargetPosition(-final_back);
+            bl.setTargetPosition(-final_back);
+            fr.setTargetPosition(+final_back);
+            br.setTargetPosition(+final_back);
             powerBusy(0.5);
 
             sleep(200);
-
 
 
             while (opModeIsActive() && !isStopRequested()) {
@@ -322,7 +323,7 @@ public class DogeTest extends LinearOpMode {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
-                if (angles.firstAngle < 88) {
+                if (angles.firstAngle > 92) {
                     //to turn left
                     int final_back1 = (int) Math.round(1 * ticks_per_inch);
 
@@ -333,15 +334,16 @@ public class DogeTest extends LinearOpMode {
                     br.setTargetPosition(-final_back1);
                     powerBusy(0.5);
 
-                } else if (angles.firstAngle > 92){
+                } else if (angles.firstAngle < 88){
                     //to turn right
                     int final_back1 = (int) Math.round(1 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(+final_back1);
-                    bl.setTargetPosition(+final_back1);
-                    fr.setTargetPosition(-final_back1);
-                    br.setTargetPosition(-final_back1);
+
+                    fl.setTargetPosition(-final_back1);
+                    bl.setTargetPosition(-final_back1);
+                    fr.setTargetPosition(+final_back1);
+                    br.setTargetPosition(+final_back1);
                     powerBusy(0.5);
                 }
                 else {
@@ -351,8 +353,118 @@ public class DogeTest extends LinearOpMode {
             }
 
 
+            //go to foundation
+            backwards(73,.3);
+
+            sleep(300);
+
+            //turn left towards the foundation
+            final_back = (int) Math.round(16 * ticks_per_inch);
+
+            reset_motor();
+            fl.setTargetPosition(+final_back);
+            bl.setTargetPosition(+final_back);
+            fr.setTargetPosition(-final_back);
+            br.setTargetPosition(-final_back);
+            powerBusy(0.5);
+
+            sleep(200);
+            //get back to 0 degrees
+            //autocorrect to align with foundation
+            while (opModeIsActive() && !isStopRequested()) {
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                telemetry.addData("Heading:", angles.firstAngle);
+                sleep(200);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
+                if (angles.firstAngle < -2) {
+                    //to turn left
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(+final_back2);
+                    bl.setTargetPosition(+final_back2);
+                    fr.setTargetPosition(-final_back2);
+                    br.setTargetPosition(-final_back2);
+                    powerBusy(0.5);
+
+                } else if (angles.firstAngle > 2){
+                    //to turn right
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
+
+                    reset_motor();
+                    fl.setTargetPosition(-final_back2);
+                    bl.setTargetPosition(-final_back2);
+                    fr.setTargetPosition(+final_back2);
+                    br.setTargetPosition(+final_back2);
+                    powerBusy(0.5);
+                }
+                else {
+                    break;
+                }
+                telemetry.update();
+            }
+            //move towards the foundation
+            backwards(15,.2);
+
+            //clamp on
+            leftServo.setPosition(-0.5); //clamp on
+            rightServo.setPosition(0.4);
+            sleep(2500);
+
+            //move to building site
+            forward(30,.4);
+            sleep(200);
+
+            //turn left to move foundation into depot
+            int final_back2 = (int) Math.round(52 * ticks_per_inch);
+
+            reset_motor();
+            fl.setTargetPosition(+final_back2);
+            bl.setTargetPosition(+final_back2);
+            fr.setTargetPosition(-final_back2);
+            br.setTargetPosition(-final_back2);
+            powerBusy(0.5);
+
+            //let go of the foundation
+            leftServo.setPosition(1);
+            rightServo.setPosition(0);
+            sleep(300);
+
+            backwards(4, 0.5); //bang into the wall
+            sleep(500);
+
+            forward(2, 0.4); //move a little backwards to relieve friction before strafing
+            sleep(200);
+
+            strafeleft(12, 0.5); //move to the side of the foundation
+            sleep(500);
+
+            backwards(7, 0.5);
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            fl.setPower(.5);
+            fr.setPower(.5);
+            bl.setPower(.5);
+            br.setPower(.5);
+
+            intakeLeft.setPower(0.7); //outtake
+            intakeRight.setPower(-0.7);
+            Thread.sleep(600);
+            sleep(600);
+            intakeLeft.setPower(0);
+            intakeRight.setPower(0);
+
+            fl.setPower(0);
+            fr.setPower(0);
+            bl.setPower(0);
+            br.setPower(0);
+
+            forward(17, 0.5); //park
         }
     }
     public void reset_motor(){
