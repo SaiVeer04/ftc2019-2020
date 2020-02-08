@@ -177,11 +177,12 @@ public class DogeTest extends LinearOpMode {
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
             telemetry.update();
             boolean bkah = true;
+            int count = 0;
             //turn towards the skystone
             while (bkah) {
                 telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
                 if (skyStoneDetector.getScreenPosition().x > 200) {
-                    backwards(10, .3);
+                    backwards(9, .3);
                     int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
 
                     reset_motor();
@@ -193,9 +194,10 @@ public class DogeTest extends LinearOpMode {
 
                     sleep(500);
                     bkah = false;
+                    count = 1;
                 }
                 else if(skyStoneDetector.getScreenPosition().x < 100){
-                    backwards(10, .3);
+                    backwards(8, .3);
                     int final_back1 = (int) Math.round(3 * ticks_per_inch);
 
                     reset_motor();
@@ -207,9 +209,10 @@ public class DogeTest extends LinearOpMode {
 
                     sleep(500);
                     bkah = false;
+                    count = 2;
                 }
                 else{
-                    backwards(10, .3);
+                    backwards(10 , .3);
                     sleep(500);
                     bkah = false;
                 }
@@ -265,6 +268,29 @@ public class DogeTest extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            sleep(1000);
+            if(count == 1){
+                int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
+
+                reset_motor();
+                fl.setTargetPosition(+final_back1);
+                bl.setTargetPosition(+final_back1);
+                fr.setTargetPosition(-final_back1);
+                br.setTargetPosition(-final_back1);
+                powerBusy(0.5);
+
+
+            }else if(count == 2){
+                int final_back1 = (int) Math.round(3 * ticks_per_inch);
+
+                reset_motor();
+                fl.setTargetPosition(-final_back1);
+                bl.setTargetPosition(-final_back1);
+                fr.setTargetPosition(+final_back1);
+                br.setTargetPosition(+final_back1);
+                powerBusy(0.5);
+            }
+            sleep(500);
             //get back to 0 degrees
             while (opModeIsActive() && !isStopRequested()) {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -304,7 +330,7 @@ public class DogeTest extends LinearOpMode {
             backwards(8,.5);
 
             //to turn right to move to the foundation
-            int final_back = (int) Math.round(16 * ticks_per_inch);
+            int final_back = (int) Math.round(18 * ticks_per_inch);
 
             reset_motor();
             fl.setTargetPosition(-final_back);
@@ -323,27 +349,26 @@ public class DogeTest extends LinearOpMode {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
-                if (angles.firstAngle > 92) {
+                if (angles.firstAngle < -91) {
                     //to turn left
-                    int final_back1 = (int) Math.round(1 * ticks_per_inch);
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(+final_back1);
-                    bl.setTargetPosition(+final_back1);
-                    fr.setTargetPosition(-final_back1);
-                    br.setTargetPosition(-final_back1);
+                    fl.setTargetPosition(+final_back2);
+                    bl.setTargetPosition(+final_back2);
+                    fr.setTargetPosition(-final_back2);
+                    br.setTargetPosition(-final_back2);
                     powerBusy(0.5);
 
-                } else if (angles.firstAngle < 88){
+                } else if (angles.firstAngle > -81){
                     //to turn right
-                    int final_back1 = (int) Math.round(1 * ticks_per_inch);
+                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
                     reset_motor();
-
-                    fl.setTargetPosition(-final_back1);
-                    bl.setTargetPosition(-final_back1);
-                    fr.setTargetPosition(+final_back1);
-                    br.setTargetPosition(+final_back1);
+                    fl.setTargetPosition(-final_back2);
+                    bl.setTargetPosition(-final_back2);
+                    fr.setTargetPosition(+final_back2);
+                    br.setTargetPosition(+final_back2);
                     powerBusy(0.5);
                 }
                 else {
@@ -352,9 +377,8 @@ public class DogeTest extends LinearOpMode {
                 telemetry.update();
             }
 
-
             //go to foundation
-            backwards(73,.3);
+            backwards(75,.7);
 
             sleep(300);
 
@@ -406,7 +430,7 @@ public class DogeTest extends LinearOpMode {
                 telemetry.update();
             }
             //move towards the foundation
-            backwards(15,.2);
+            backwards(13,.2);
 
             //clamp on
             leftServo.setPosition(-0.5); //clamp on
@@ -414,17 +438,17 @@ public class DogeTest extends LinearOpMode {
             sleep(2500);
 
             //move to building site
-            forward(30,.4);
+            forward(25,.7);
             sleep(200);
 
             //turn left to move foundation into depot
-            int final_back2 = (int) Math.round(52 * ticks_per_inch);
+            int final_back2 = (int) Math.round(62 * ticks_per_inch);
 
             reset_motor();
-            fl.setTargetPosition(+final_back2);
-            bl.setTargetPosition(+final_back2);
-            fr.setTargetPosition(-final_back2);
-            br.setTargetPosition(-final_back2);
+            fl.setTargetPosition(-final_back2);
+            bl.setTargetPosition(-final_back2);
+            fr.setTargetPosition(+final_back2);
+            br.setTargetPosition(+final_back2);
             powerBusy(0.5);
 
             //let go of the foundation
@@ -436,10 +460,10 @@ public class DogeTest extends LinearOpMode {
             sleep(500);
 
             forward(2, 0.4); //move a little backwards to relieve friction before strafing
-            sleep(200);
+            //sleep(200);
 
-            strafeleft(12, 0.5); //move to the side of the foundation
-            sleep(500);
+            straferight(12, 0.5); //move to the side of the foundation
+           // sleep(500);
 
             backwards(7, 0.5);
             fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -464,7 +488,7 @@ public class DogeTest extends LinearOpMode {
             bl.setPower(0);
             br.setPower(0);
 
-            forward(17, 0.5); //park
+            forward(13, 0.7); //park
         }
     }
     public void reset_motor(){
@@ -562,4 +586,209 @@ public class DogeTest extends LinearOpMode {
         }
 
     }
+    public void moveToPosition(double inches, double speed){
+        //
+        int move = (int)(Math.round(inches*ticks_per_inch));
+        //
+        bl.setTargetPosition(bl.getCurrentPosition() + move);
+        fl.setTargetPosition(fl.getCurrentPosition() + move);
+        br.setTargetPosition(br.getCurrentPosition() + move);
+        fr.setTargetPosition(fr.getCurrentPosition() + move);
+        //
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //
+        fl.setPower(speed);
+        bl.setPower(speed);
+        fr.setPower(speed);
+        br.setPower(speed);
+        //
+        while (fl.isBusy() && fr.isBusy() && bl.isBusy() && br.isBusy()){
+
+                fr.setPower(0);
+                fl.setPower(0);
+                br.setPower(0);
+                bl.setPower(0);
+                return;
+
+        }
+        fr.setPower(0);
+        fl.setPower(0);
+        br.setPower(0);
+        bl.setPower(0);
+        return;
+    }
+    //
+    /*
+    This function uses the Expansion Hub IMU Integrated Gyro to turn a precise number of degrees (+/- 5).
+    Degrees should always be positive, make speedDirection negative to turn left.
+     */
+    public void turnWithGyro(double degrees, double speedDirection){
+        //<editor-fold desc="Initialize">
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double yaw = -angles.firstAngle;//make this negative
+        telemetry.addData("Speed Direction", speedDirection);
+        telemetry.addData("Yaw", yaw);
+        telemetry.update();
+        //
+        telemetry.addData("stuff", speedDirection);
+        telemetry.update();
+        //
+        double first;
+        double second;
+        //</editor-fold>
+        //
+        if (speedDirection > 0){//set target positions
+            //<editor-fold desc="turn right">
+            if (degrees > 10){
+                first = (degrees - 10) + devertify(yaw);
+                second = degrees + devertify(yaw);
+            }else{
+                first = devertify(yaw);
+                second = degrees + devertify(yaw);
+            }
+            //</editor-fold>
+        }else{
+            //<editor-fold desc="turn left">
+            if (degrees > 10){
+                first = devertify(-(degrees - 10) + devertify(yaw));
+                second = devertify(-degrees + devertify(yaw));
+            }else{
+                first = devertify(yaw);
+                second = devertify(-degrees + devertify(yaw));
+            }
+            //
+            //</editor-fold>
+        }
+        //
+        //<editor-fold desc="Go to position">
+        Double firsta = convertify(first - 5);//175
+        Double firstb = convertify(first + 5);//-175
+        //
+        turnWithEncoder(speedDirection);
+        //
+        if (Math.abs(firsta - firstb) < 11) {
+            while (!(firsta < yaw && yaw < firstb) && opModeIsActive()) {//within range?
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                gravity = imu.getGravity();
+                yaw = -angles.firstAngle;
+                telemetry.addData("Position", yaw);
+                telemetry.addData("first before", first);
+                telemetry.addData("first after", convertify(first));
+                telemetry.update();
+            }
+        }else{
+            //
+            while (!((firsta < yaw && yaw < 180) || (-180 < yaw && yaw < firstb)) && opModeIsActive()) {//within range?
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                gravity = imu.getGravity();
+                yaw = -angles.firstAngle;
+                telemetry.addData("Position", yaw);
+                telemetry.addData("first before", first);
+                telemetry.addData("first after", convertify(first));
+                telemetry.update();
+            }
+        }
+        //
+        Double seconda = convertify(second - 5);//175
+        Double secondb = convertify(second + 5);//-175
+        //
+        turnWithEncoder(speedDirection / 3);
+        //
+        if (Math.abs(seconda - secondb) < 11) {
+            while (!(seconda < yaw && yaw < secondb) && opModeIsActive()) {//within range?
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                gravity = imu.getGravity();
+                yaw = -angles.firstAngle;
+                telemetry.addData("Position", yaw);
+                telemetry.addData("second before", second);
+                telemetry.addData("second after", convertify(second));
+                telemetry.update();
+            }
+            while (!((seconda < yaw && yaw < 180) || (-180 < yaw && yaw < secondb)) && opModeIsActive()) {//within range?
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                gravity = imu.getGravity();
+                yaw = -angles.firstAngle;
+                telemetry.addData("Position", yaw);
+                telemetry.addData("second before", second);
+                telemetry.addData("second after", convertify(second));
+                telemetry.update();
+            }
+            fl.setPower(0);
+            fr.setPower(0);
+            bl.setPower(0);
+            br.setPower(0);
+        }
+        //</editor-fold>
+        //
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void waitForStartify(){
+        waitForStart();
+    }
+    //
+    /*
+    These functions are used in the turnWithGyro function to ensure inputs
+    are interpreted properly.
+     */
+    public double devertify(double degrees){
+        if (degrees < 0){
+            degrees = degrees + 360;
+        }
+        return degrees;
+    }
+    public double convertify(double degrees){
+        if (degrees > 179){
+            degrees = -(360 - degrees);
+        } else if(degrees < -180){
+            degrees = 360 + degrees;
+        } else if(degrees > 360){
+            degrees = degrees - 360;
+        }
+        return degrees;
+    }
+    //
+    /*
+    This function is called at the beginning of the program to activate
+    the IMU Integrated Gyro.
+     */
+    public void initGyro(){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        //parameters.calibrationDataFile = "GyroCal.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        //
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+    }
+    //
+    /*
+    This function is used in the turnWithGyro function to set the
+    encoder mode and turn.
+     */
+    public void turnWithEncoder(double input){
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //
+        fl.setPower(input);
+        bl.setPower(input);
+        fr.setPower(-input);
+        br.setPower(-input);
+    }
+    //
 }
