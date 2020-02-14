@@ -24,6 +24,9 @@ public class TeleOp extends LinearOpMode {
     DcMotor intakeRight;
     WebcamName webcamName;
 
+
+
+
     DcMotor string, rotate;
     public CRServo foundation;
     public static final double INCREMENT = .1;
@@ -45,6 +48,11 @@ public class TeleOp extends LinearOpMode {
 
         string = hardwareMap.get(DcMotor.class, "string");
         rotate = hardwareMap.get(DcMotor.class, "rotate");
+
+        Servo leftServo = hardwareMap.get(Servo.class,"leftServo");
+        Servo rightServo = hardwareMap.get(Servo.class,"rightServo");
+
+
         //foundation = hardwareMap.crservo.get("foundation");
 
 
@@ -135,13 +143,21 @@ public class TeleOp extends LinearOpMode {
                 else if (gamepad2.dpad_left == false || gamepad2.dpad_right == false){
                     rotate.setPower(0);
                 }
-
-
+                if(gamepad1.right_bumper){
+                    leftServo.setPosition(-0.5); //clamp on
+                    rightServo.setPosition(0.4);
                 }
 
-                if (gamepad2.y) {
-                    moveForward(-0.05, 3000, 200);
+                if(gamepad1.left_bumper){
+                    leftServo.setPosition(1);
+                    rightServo.setPosition(0);
                 }
+
+
+            }
+
+
+
 
 
             }

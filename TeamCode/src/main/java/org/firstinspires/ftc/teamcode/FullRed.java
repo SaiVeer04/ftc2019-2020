@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -29,9 +30,9 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
-@Autonomous(name = "FullBlue", group="DogeCV")
+@Autonomous(name = "FullRed", group="DogeCV")
 
-public class FullBlue extends LinearOpMode {
+public class FullRed extends LinearOpMode {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
 
@@ -186,7 +187,7 @@ public class FullBlue extends LinearOpMode {
             //turn towards the skystone
             while (bkah) {
                 telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
-                if (skyStoneDetector.getScreenPosition().x < 100) {
+                if (skyStoneDetector.getScreenPosition().x > 200) {
                     backwards(12, .3);
                     int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
 
@@ -203,7 +204,7 @@ public class FullBlue extends LinearOpMode {
                     foundationMovement = 2;
                     oppositeSide = -3;
                 }
-                else if(skyStoneDetector.getScreenPosition().x > 200){
+                else if(skyStoneDetector.getScreenPosition().x < 100){
                     backwards(10, .3);
                     int final_back1 = (int) Math.round(3 * ticks_per_inch);
 
@@ -282,7 +283,7 @@ public class FullBlue extends LinearOpMode {
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             sleep(1000);
-            if(count == 2){
+            if(count == 1){
                 int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
 
                 reset_motor();
@@ -293,7 +294,7 @@ public class FullBlue extends LinearOpMode {
                 powerBusy(0.5);
 
 
-            }else if(count == 1){
+            }else if(count == 2){
                 int final_back1 = (int) Math.round(3 * ticks_per_inch);
 
                 reset_motor();
@@ -346,10 +347,10 @@ public class FullBlue extends LinearOpMode {
             int final_back = (int) Math.round(18 * ticks_per_inch);
 
             reset_motor();
-            fl.setTargetPosition(+final_back);
-            bl.setTargetPosition(+final_back);
-            fr.setTargetPosition(-final_back);
-            br.setTargetPosition(-final_back);
+            fl.setTargetPosition(-final_back);
+            bl.setTargetPosition(-final_back);
+            fr.setTargetPosition(+final_back);
+            br.setTargetPosition(+final_back);
             powerBusy(0.5);
 
             sleep(200);
@@ -362,7 +363,7 @@ public class FullBlue extends LinearOpMode {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
-                if (angles.firstAngle < 89) {
+                if (angles.firstAngle < -89) {
                     //to turn left
                     int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
@@ -373,7 +374,7 @@ public class FullBlue extends LinearOpMode {
                     br.setTargetPosition(-final_back2);
                     powerBusy(0.5);
 
-                } else if (angles.firstAngle > 85){
+                } else if (angles.firstAngle > -85){
                     //to turn right
                     int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
@@ -399,10 +400,10 @@ public class FullBlue extends LinearOpMode {
             final_back = (int) Math.round(16 * ticks_per_inch);
 
             reset_motor();
-            fl.setTargetPosition(-final_back);
-            bl.setTargetPosition(-final_back);
-            fr.setTargetPosition(+final_back);
-            br.setTargetPosition(+final_back);
+            fl.setTargetPosition(+final_back);
+            bl.setTargetPosition(+final_back);
+            fr.setTargetPosition(-final_back);
+            br.setTargetPosition(-final_back);
             powerBusy(0.5);
 
             sleep(200);
@@ -420,10 +421,10 @@ public class FullBlue extends LinearOpMode {
                     int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(-final_back2);
-                    bl.setTargetPosition(-final_back2);
-                    fr.setTargetPosition(+final_back2);
-                    br.setTargetPosition(+final_back2);
+                    fl.setTargetPosition(+final_back2);
+                    bl.setTargetPosition(+final_back2);
+                    fr.setTargetPosition(-final_back2);
+                    br.setTargetPosition(-final_back2);
                     powerBusy(0.5);
 
                 } else if (angles.firstAngle > 2){
@@ -431,10 +432,10 @@ public class FullBlue extends LinearOpMode {
                     int final_back2 = (int) Math.round(1 * ticks_per_inch);
 
                     reset_motor();
-                    fl.setTargetPosition(+final_back2);
-                    bl.setTargetPosition(+final_back2);
-                    fr.setTargetPosition(-final_back2);
-                    br.setTargetPosition(-final_back2);
+                    fl.setTargetPosition(-final_back2);
+                    bl.setTargetPosition(-final_back2);
+                    fr.setTargetPosition(+final_back2);
+                    br.setTargetPosition(+final_back2);
                     powerBusy(0.5);
                 }
                 else {
@@ -458,10 +459,10 @@ public class FullBlue extends LinearOpMode {
             int final_back2 = (int) Math.round(60 * ticks_per_inch);
 
             reset_motor();
-            fl.setTargetPosition(+final_back2);
-            bl.setTargetPosition(+final_back2);
-            fr.setTargetPosition(-final_back2);
-            br.setTargetPosition(-final_back2);
+            fl.setTargetPosition(-final_back2);
+            bl.setTargetPosition(-final_back2);
+            fr.setTargetPosition(+final_back2);
+            br.setTargetPosition(+final_back2);
             powerBusy(0.5);
 
             //let go of the foundation

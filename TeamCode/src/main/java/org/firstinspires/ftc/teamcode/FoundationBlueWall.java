@@ -18,10 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-
-import java.util.Locale;
 
 /*
  * Thanks to EasyOpenCV for the great API (and most of the example)
@@ -29,9 +25,9 @@ import java.util.Locale;
  * Original Work Copright(c) 2019 OpenFTC Team
  * Derived Work Copyright(c) 2019 DogeDevs
  */
-@Autonomous(name = "FullBlue", group="DogeCV")
+@Autonomous(name = "FoundationBlueWall", group="DogeCV")
 
-public class FullBlue extends LinearOpMode {
+public class FoundationBlueWall extends LinearOpMode {
     private OpenCvCamera phoneCam;
     private SkystoneDetector skyStoneDetector;
 
@@ -118,194 +114,37 @@ public class FullBlue extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        /*
-         * Instantiate an OpenCvCamera object for the camera we'll be using.
-         * In this sample, we're using the phone's internal camera. We pass it a
-         * CameraDirection enum indicating whether to use the front or back facing
-         * camera, as well as the view that we wish to use for camera monitor (on
-         * the RC phone). If no camera monitor is desired, use the alternate
-         * single-parameter constructor instead (commented out below)
-         */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
-        // OR...  Do Not Activate the Camera Monitor View
-        //phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
-
-        /*
-         * Open the connection to the camera device
-         */
-        phoneCam.openCameraDevice();
-
-        /*
-         * Specify the image processing pipeline we wish to invoke upon receipt
-         * of a frame from the camera. Note that switching pipelines on-the-fly
-         * (while a streaming session is in flight) *IS* supported.
-         */
-        skyStoneDetector = new SkystoneDetector();
-        phoneCam.setPipeline(skyStoneDetector);
-
-        /*
-         * Tell the camera to start streaming images to us! Note that you must make sure
-         * the resolution you specify is supported by the camera. If it is not, an exception
-         * will be thrown.
-         *
-         * Also, we specify the rotation that the camera is used in. This is so that the image
-         * from the camera sensor can be rotated such that it is always displayed with the image upright.
-         * For a front facing camera, rotation is defined assuming the user is looking at the screen.
-         * For a rear facing camera or a webcam, rotation is defined assuming the camera is facing
-         * away from the user.
-         */
-        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_RIGHT);
-
-        /*
-         * Wait for the user to press start on the Driver Station
-         */
-
-        //test.setPosition(1);
 
         waitForStart();
 
         if (opModeIsActive()) {
-            /*
-             * Send some stats to the telemetry
-             */
-            telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
-            telemetry.addData("Stone Position Y", skyStoneDetector.getScreenPosition().y);
-            telemetry.addData("Frame Count", phoneCam.getFrameCount());
-            telemetry.addData("FPS", String.format(Locale.US, "%.2f", phoneCam.getFps()));
-            telemetry.addData("Total frame time ms", phoneCam.getTotalFrameTimeMs());
-            telemetry.addData("Pipeline time ms", phoneCam.getPipelineTimeMs());
-            telemetry.addData("Overhead time ms", phoneCam.getOverheadTimeMs());
-            telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
-            telemetry.update();
-            boolean bkah = true;
-            int count = 0;
-            int foundationMovement = 0;
-            int oppositeSide = 0; //used for the first case since the robot move s too close to the wall
-            //turn towards the skystone
-            while (bkah) {
-                telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
-                if (skyStoneDetector.getScreenPosition().x < 100) {
-                    backwards(12, .3);
-                    int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
 
-                    reset_motor();
-                    fl.setTargetPosition(-final_back1);
-                    bl.setTargetPosition(-final_back1);
-                    fr.setTargetPosition(+final_back1);
-                    br.setTargetPosition(+final_back1);
-                    powerBusy(0.5);
+            backwards(10,.5); // move towards the foundation
+            int final_back3 = (int) Math.round(8 * ticks_per_inch);
 
-                    sleep(500);
-                    bkah = false;
-                    count = 1;
-                    foundationMovement = 2;
-                    oppositeSide = -3;
-                }
-                else if(skyStoneDetector.getScreenPosition().x > 200){
-                    backwards(10, .3);
-                    int final_back1 = (int) Math.round(3 * ticks_per_inch);
+            reset_motor();
+            fl.setTargetPosition(+final_back3);
+            bl.setTargetPosition(+final_back3);
+            fr.setTargetPosition(-final_back3);
+            br.setTargetPosition(-final_back3);
+            powerBusy(0.5);
 
-                    reset_motor();
-                    fl.setTargetPosition(+final_back1);
-                    bl.setTargetPosition(+final_back1);
-                    fr.setTargetPosition(-final_back1);
-                    br.setTargetPosition(-final_back1);
-                    powerBusy(0.5);
+            backwards(14,.5);
 
-                    sleep(500);
-                    bkah = false;
-                    count = 2;
-                }
-                else{
-                    backwards(10 , .3);
-                    sleep(500);
-                    bkah = false;
-                    foundationMovement = 2;
-                }
-                telemetry.update();
-            }
+            final_back3 = (int) Math.round(8 * ticks_per_inch);
 
-
-
-            //move forward and intake
-            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            fl.setPower(-.5);
-            fr.setPower(-.5);
-            bl.setPower(-.5);
-            br.setPower(-.5);
-
-            intakeLeft.setPower(-0.7); //make the intake wheels move
-            intakeRight.setPower(0.7);
-
-
-
-            Thread.sleep(1200);
-            fl.setPower(0);
-            bl.setPower(0);
-            fr.setPower(0);
-            br.setPower(0);
-
-            intakeLeft.setPower(0); //stop the intake wheels
-            intakeRight.setPower(0);
-
-            intakeLeft.setPower(-0.7); //make the intake wheels move
-            intakeRight.setPower(0.7);
-
-            Thread.sleep(500);
-
-            intakeLeft.setPower(0); //stop the intake wheels
-            intakeRight.setPower(0);
-
-            sleep(100);
-
-            fl.setPower(.5);
-            fr.setPower(.5);
-            bl.setPower(.5);
-            br.setPower(.5);
-            //move back to orginal position
-            Thread.sleep(1300);
-
-            fl.setPower(0);
-            bl.setPower(0);
-            fr.setPower(0);
-            br.setPower(0);
-
-
-            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            sleep(1000);
-            if(count == 2){
-                int final_back1 = (int) Math.round(4.4 * ticks_per_inch);
-
-                reset_motor();
-                fl.setTargetPosition(+final_back1);
-                bl.setTargetPosition(+final_back1);
-                fr.setTargetPosition(-final_back1);
-                br.setTargetPosition(-final_back1);
-                powerBusy(0.5);
-
-
-            }else if(count == 1){
-                int final_back1 = (int) Math.round(3 * ticks_per_inch);
-
-                reset_motor();
-                fl.setTargetPosition(-final_back1);
-                bl.setTargetPosition(-final_back1);
-                fr.setTargetPosition(+final_back1);
-                br.setTargetPosition(+final_back1);
-                powerBusy(0.5);
-            }
+            reset_motor();
+            fl.setTargetPosition(-final_back3);
+            bl.setTargetPosition(-final_back3);
+            fr.setTargetPosition(+final_back3);
+            br.setTargetPosition(+final_back3);
+            powerBusy(0.5);
             sleep(500);
-            //get back to 0 degrees
-           /* while (opModeIsActive() && !isStopRequested()) {
+
+
+            //autocorrect just in case
+            while (opModeIsActive() && !isStopRequested()) {
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 telemetry.addData("Heading:", angles.firstAngle);
                 sleep(200);
@@ -338,124 +177,17 @@ public class FullBlue extends LinearOpMode {
                     break;
                 }
                 telemetry.update();
-            }*/
-            //move forward so you don't hit the robot
-            backwards(8,.5);
-
-            //to turn right to move to the foundation
-            int final_back = (int) Math.round(18 * ticks_per_inch);
-
-            reset_motor();
-            fl.setTargetPosition(+final_back);
-            bl.setTargetPosition(+final_back);
-            fr.setTargetPosition(-final_back);
-            br.setTargetPosition(-final_back);
-            powerBusy(0.5);
-
-            sleep(200);
-
-
-            while (opModeIsActive() && !isStopRequested()) {
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                telemetry.addData("Heading:", angles.firstAngle);
-                sleep(200);
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-
-                if (angles.firstAngle < 89) {
-                    //to turn left
-                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
-
-                    reset_motor();
-                    fl.setTargetPosition(+final_back2);
-                    bl.setTargetPosition(+final_back2);
-                    fr.setTargetPosition(-final_back2);
-                    br.setTargetPosition(-final_back2);
-                    powerBusy(0.5);
-
-                } else if (angles.firstAngle > 85){
-                    //to turn right
-                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
-
-                    reset_motor();
-                    fl.setTargetPosition(-final_back2);
-                    bl.setTargetPosition(-final_back2);
-                    fr.setTargetPosition(+final_back2);
-                    br.setTargetPosition(+final_back2);
-                    powerBusy(0.5);
-                }
-                else {
-                    break;
-                }
-                telemetry.update();
             }
+            // get to foundation
+           backwards(11,.2);
 
-            //go to foundation
-            backwards(75 + oppositeSide,.7);
+           leftServo.setPosition(-0.5); //clamp on
+           rightServo.setPosition(0.4);
+           sleep(1500);
 
-            sleep(300);
+           forward(25,.4);//go to building site
 
-            //turn left towards the foundation
-            final_back = (int) Math.round(16 * ticks_per_inch);
-
-            reset_motor();
-            fl.setTargetPosition(-final_back);
-            bl.setTargetPosition(-final_back);
-            fr.setTargetPosition(+final_back);
-            br.setTargetPosition(+final_back);
-            powerBusy(0.5);
-
-            sleep(200);
-            //get back to 0 degrees
-            //autocorrect to align with foundation
-            while (opModeIsActive() && !isStopRequested()) {
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                telemetry.addData("Heading:", angles.firstAngle);
-                sleep(200);
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-
-                if (angles.firstAngle < -2) {
-                    //to turn left
-                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
-
-                    reset_motor();
-                    fl.setTargetPosition(-final_back2);
-                    bl.setTargetPosition(-final_back2);
-                    fr.setTargetPosition(+final_back2);
-                    br.setTargetPosition(+final_back2);
-                    powerBusy(0.5);
-
-                } else if (angles.firstAngle > 2){
-                    //to turn right
-                    int final_back2 = (int) Math.round(1 * ticks_per_inch);
-
-                    reset_motor();
-                    fl.setTargetPosition(+final_back2);
-                    bl.setTargetPosition(+final_back2);
-                    fr.setTargetPosition(-final_back2);
-                    br.setTargetPosition(-final_back2);
-                    powerBusy(0.5);
-                }
-                else {
-                    break;
-                }
-                telemetry.update();
-            }
-            //move towards the foundation
-            backwards(15,.2);
-
-            //clamp on
-            leftServo.setPosition(-0.5); //clamp on
-            rightServo.setPosition(0.4);
-            sleep(1500);
-
-            //move to building site
-            forward(25 + foundationMovement,.4);
-            sleep(200);
-
-            //turn left to move foundation into depot
-            int final_back2 = (int) Math.round(60 * ticks_per_inch);
+            int final_back2 = (int) Math.round(52 * ticks_per_inch);
 
             reset_motor();
             fl.setTargetPosition(+final_back2);
@@ -469,39 +201,17 @@ public class FullBlue extends LinearOpMode {
             rightServo.setPosition(0);
             sleep(300);
 
-            backwards(4, 0.5); //bang into the wall
-            sleep(500);
+            backwards(12,.3);
 
-            forward(3, 0.4); //move a little backwards to relieve friction before strafing
-            //sleep(200);
+            //strafe towards the wall
+            straferight(30,.5);
 
-            straferight(12, 0.5); //move to the side of the foundation
-           // sleep(500);
+            //strafe of the wall
+            strafeleft(10,.5);
 
-            backwards(7, 0.5);
-            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            //go to park
+            forward(35,.4);
 
-            fl.setPower(.5);
-            fr.setPower(.5);
-            bl.setPower(.5);
-            br.setPower(.5);
-
-            intakeLeft.setPower(0.7); //outtake
-            intakeRight.setPower(-0.7);
-            Thread.sleep(600);
-            sleep(600);
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
-
-            fl.setPower(0);
-            fr.setPower(0);
-            bl.setPower(0);
-            br.setPower(0);
-
-            forward(13, 0.7); //park
         }
     }
     public void reset_motor(){
